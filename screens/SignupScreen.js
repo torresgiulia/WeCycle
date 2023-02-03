@@ -2,10 +2,17 @@ import * as React from "react";
 import { Text, View } from "react-native";
 import { NavigationContainer, TabActions } from "@react-navigation/native";
 
-const HomeScreen = () => {
+const SignupScreen = () => {
     <View>
-        <Text>Home Screen</Text>
+        <Text>SignupScreen</Text>
+
+{/* Nome
+Apelido
+Nome de utilizador
+Telemóvel 
+Email
+Passe */}
     </View>
 };
 
-export default HomeScreen;
+export default SignupScreen;

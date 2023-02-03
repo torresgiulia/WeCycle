@@ -1,46 +1,65 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, KeyboardAvoidingView, TextInput, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, KeyboardAvoidingView, TextInput, TouchableOpacity, Image, Touchable } from 'react-native';
 import { auth } from '../firebase';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
+import SignupScreen from './SignupScreen';
+import HomeScreen from './HomeScreen';
+
+const Stack = createNativeStackNavigator();
 
 const LoginScreen = () => {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-  
+   
     const handleSubmit = () => {
-        createUserWithEmailAndPassword(auth, email, password);
+        console.log("clicou");
+        return(       
+            <NavigationContainer>
+            <Stack.Navigator>
+                <Stack.Screen options={{ headerShown:false}} name="SignUp" component={SignupScreen} />
+            </Stack.Navigator>
+        </NavigationContainer>
+        );
+
+
+        //navigation.navigate('SignupScreen');
+        //createUserWithEmailAndPassword(auth, email, password);
+        //navigation.navigate('SignupScreen');
+        
     };
   
     return (
         <KeyboardAvoidingView style={styles.container} behavior="padding">
+            <Image source={require('../assets/logo_correto.png')} style={styles.logo}></Image>
             <View style={styles.inputContainer}>
                 <TextInput 
                     placeholder='Email'
                     value={email}
                     onChangeText={text => setEmail(text)}
-                    style={styles.input}/>
+                    style={styles.inputBox}/>
                 <TextInput 
                     placeholder='Password'
                     value={password}
                     onChangeText={text => setPassword(text)}
-                    style={styles.input}
+                    style={styles.inputBox}
                     secureTextEntry/>
             </View>
-            <View style={styles.buttonContainer}>
+            <View >
                 <TouchableOpacity 
-                onPress={()=> {}}
-                style={styles.buttonText}>
-                    <Text style={[styles.button, styles.buttonOutline]}>Login</Text>
+                onPress={()=> {}}>
+                    <Text style={styles.buttonContainer}>Login</Text>
                 </TouchableOpacity>
             </View>
-            <View style={styles.buttonContainer}>
-                <TouchableOpacity 
-                onPress={handleSubmit}
-                style={[styles.button, styles.buttonOutline] }>
-                    <Text style={styles.buttonOutlineText}>Register</Text>
-                </TouchableOpacity>
+            <View style={styles.buttonContainer}>               
+                    <Text>Não tem conta? 
+                        <TouchableOpacity onPress={console.log("clicou")}> 
+                            <Text style={styles.link}>Criar uma!</Text>
+                        </TouchableOpacity>
+                    </Text>              
             </View>
         </KeyboardAvoidingView>
     );
@@ -58,40 +77,27 @@ const LoginScreen = () => {
         inputContainer:{
             width:'80%'
         },
-        input:{
-            backgroundColor:'white',
-            paddingHorizontal: 15,
-            paddingVertical: 10,
-            borderRadius: 10,
-            marginTop:5
-        },
         buttonContainer:{
             width: '60%',
             justifyContent: 'center',
             alignItems:'center',
-            marginTop:40
+            marginTop:40,
         },
-        button:{
-            width:'100%',
-            backgroundColor:'#0782F9',
-            padding:15,
-            borderRadius:10,
-            alignItems: 'center'
+        inputBox: {
+            margin: 5,
+            width: "90%",
+            fontSize: 18,
+            color: "white",
+            padding: 12,
+            backgroundColor: "rgb(162, 212, 133)",
+            borderWidth: 0.5,
+            borderRadius: 10,
         },
-        buttonOutline:{
-            borderColor: 'white',
-            marginTop: 5,
-            borderColor: '#0782F9',
-            borderWidth:2
+        link:{
+            color: "rgb(0, 153, 51)",
         },
-        buttonOutlineText:{
-            color: 'white',
-            fontWeight: '700',
-            fontSize: 16
-        },
-        buttonText:{
-            color: '#0782F9',
-            fontWeight: '700',
-            fontSize: 16
-        },
+        logo:{
+            width: 250,
+            height: 230     
+        }
 });
