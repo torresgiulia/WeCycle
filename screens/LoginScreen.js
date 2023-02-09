@@ -4,7 +4,7 @@ import { StyleSheet, Text, View, KeyboardAvoidingView, TextInput, TouchableOpaci
 import { auth } from '../firebase';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 //React Navigator
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 //Screens
@@ -13,24 +13,35 @@ import HomeScreen from './HomeScreen';
 
 const Stack = createNativeStackNavigator();
 
-export default function LoginScreen() {
+ function SignupStack({ navigation }) {
+    return (
+      <Stack.Navigator>
+        <Stack.Screen name="SignupScreen" component={SignupScreen} />
+      </Stack.Navigator>
+    );
+  }
 
+const LoginScreen = ({navigation}) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
    
     //Navigate to SignupScreen
-    const handleSubmit = () => {
-        console.log("clicou");
 
-        return(       
-        <NavigationContainer>
-            <Stack.Navigator>
-                <Stack.Screen options={{ headerShown:false}} name="SignUp" component={SignupScreen} />
-            </Stack.Navigator>
-        </NavigationContainer>
-        );
-        
-    }
+    //Problema está em não conseguir direcionar na função, apenas no return da página
+
+    //navigation.navigate("SignupScreen");
+    const handleButtonPresss = () => {
+        console.log("in");
+        <Stack.Navigator>
+            <Stack.Screen name="SignupScreen" component={SignupScreen} />
+        </Stack.Navigator>
+    };
+
+        const handleButtonPress = () => {
+          console.log('Button pressed');
+          navigation.navigate('SignupScreen');
+        };
+
   
     return (
         <KeyboardAvoidingView style={styles.container} behavior="padding">
@@ -58,20 +69,18 @@ export default function LoginScreen() {
             </View>
 
             <View style={styles.buttonContainer}> 
-                <Button onPress={handleSubmit} title="Criar conta"></Button>
+                <Button onPress={handleButtonPress} title="Criar conta"></Button>
                 <Text>Não tem conta? 
-                    <TouchableOpacity onPress={handleSubmit}> 
-                    {/* onPress={console.log("clicou")}>  */}
+                    <TouchableOpacity onPress={() => {}}> 
                         <Text style={styles.link}>Criar uma!</Text>
                     </TouchableOpacity>
                 </Text>              
             </View>
         </KeyboardAvoidingView>
     );
-    }
+}
 
-    //export default LoginScreen;
-
+export default LoginScreen;
     const styles = StyleSheet.create({
         container:{
             flex:1,

@@ -1,7 +1,7 @@
-//import * as React from "react";
-import { Text, View, TextInput } from "react-native";
-//import { NavigationContainer, TabActions } from "@react-navigation/native";
-//import React, { useState } from 'react';
+// import * as React from "react";
+import React, { useState } from 'react';
+import { Text, View, TextInput, SafeAreaView } from "react-native";
+import { NavigationContainer, TabActions } from "@react-navigation/native";
 
 
 const SignupScreen = () => {
@@ -13,7 +13,8 @@ const SignupScreen = () => {
     const [pass, setPass] = useState("");
     const [vPass, setvPass] = useState("");
 
-    <View>
+    return(
+    <SafeAreaView>
         <Text>SignupScreen</Text>
         <View>
             <TextInput placeholder="Nome" value={nome} onChangeText={text => setNome(text)}></TextInput>
@@ -24,7 +25,8 @@ const SignupScreen = () => {
             <TextInput placeholder="Palavra-passe" value={pass} onChangeText={text => setPass(text)}></TextInput>
             <TextInput placeholder="Confirmação de palavra-passe" value={vPass} onChangeText={text => setvPass(text)}></TextInput>
         </View>
-    </View>
+    </SafeAreaView>
+    )
 };
 
 export default SignupScreen;
