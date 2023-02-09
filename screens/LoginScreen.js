@@ -1,40 +1,41 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, KeyboardAvoidingView, TextInput, TouchableOpacity, Image, Touchable } from 'react-native';
+import { StyleSheet, Text, View, KeyboardAvoidingView, TextInput, TouchableOpacity, Image, Touchable, Button } from 'react-native';
+//Firebase
 import { auth } from '../firebase';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
+//React Navigator
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
+//Screens
 import SignupScreen from './SignupScreen';
 import HomeScreen from './HomeScreen';
 
 const Stack = createNativeStackNavigator();
 
-const LoginScreen = () => {
+export default function LoginScreen() {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
    
+    //Navigate to SignupScreen
     const handleSubmit = () => {
         console.log("clicou");
+
         return(       
-            <NavigationContainer>
+        <NavigationContainer>
             <Stack.Navigator>
                 <Stack.Screen options={{ headerShown:false}} name="SignUp" component={SignupScreen} />
             </Stack.Navigator>
         </NavigationContainer>
         );
-
-
-        //navigation.navigate('SignupScreen');
-        //createUserWithEmailAndPassword(auth, email, password);
-        //navigation.navigate('SignupScreen');
         
-    };
+    }
   
     return (
         <KeyboardAvoidingView style={styles.container} behavior="padding">
             <Image source={require('../assets/logo_correto.png')} style={styles.logo}></Image>
+            
             <View style={styles.inputContainer}>
                 <TextInput 
                     placeholder='Email'
@@ -48,24 +49,28 @@ const LoginScreen = () => {
                     style={styles.inputBox}
                     secureTextEntry/>
             </View>
+
             <View >
                 <TouchableOpacity 
                 onPress={()=> {}}>
                     <Text style={styles.buttonContainer}>Login</Text>
                 </TouchableOpacity>
             </View>
-            <View style={styles.buttonContainer}>               
-                    <Text>Não tem conta? 
-                        <TouchableOpacity onPress={console.log("clicou")}> 
-                            <Text style={styles.link}>Criar uma!</Text>
-                        </TouchableOpacity>
-                    </Text>              
+
+            <View style={styles.buttonContainer}> 
+                <Button onPress={handleSubmit} title="Criar conta"></Button>
+                <Text>Não tem conta? 
+                    <TouchableOpacity onPress={handleSubmit}> 
+                    {/* onPress={console.log("clicou")}>  */}
+                        <Text style={styles.link}>Criar uma!</Text>
+                    </TouchableOpacity>
+                </Text>              
             </View>
         </KeyboardAvoidingView>
     );
     }
 
-    export default LoginScreen;
+    //export default LoginScreen;
 
     const styles = StyleSheet.create({
         container:{
