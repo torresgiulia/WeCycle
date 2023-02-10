@@ -8,16 +8,18 @@ import SignupScreen from './screens/SignupScreen';
 
 const Stack = createNativeStackNavigator();
 
-export default function App() {
+function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen options={{ headerShown:false}} name="Login" component={LoginScreen} />
-        {/* <Stack.Screen options={{ headerShown:false}} name="SignUp" component={SignupScreen} /> */}
+      <Stack.Navigator initialRouteName="Login">
+        <Stack.Screen name="Login" component={LoginScreen} options={{headerShown: false}}/>
+        <Stack.Screen name="SignupScreen" component={SignupScreen}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
 }
+
+export default App;
 
 const styles = StyleSheet.create({
   container: {

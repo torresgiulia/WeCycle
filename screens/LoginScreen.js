@@ -7,52 +7,27 @@ import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-//Screens
-import SignupScreen from './SignupScreen';
-import HomeScreen from './HomeScreen';
-
-const Stack = createNativeStackNavigator();
-
- function SignupStack({ navigation }) {
-    return (
-      <Stack.Navigator>
-        <Stack.Screen name="SignupScreen" component={SignupScreen} />
-      </Stack.Navigator>
-    );
-  }
 
 const LoginScreen = ({navigation}) => {
+
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-   
-    //Navigate to SignupScreen
-
-    //Problema está em não conseguir direcionar na função, apenas no return da página
-
-    //navigation.navigate("SignupScreen");
-    const handleButtonPresss = () => {
-        console.log("in");
-        <Stack.Navigator>
-            <Stack.Screen name="SignupScreen" component={SignupScreen} />
-        </Stack.Navigator>
-    };
-
-        const handleButtonPress = () => {
-          console.log('Button pressed');
-          navigation.navigate('SignupScreen');
-        };
-
   
     return (
         <KeyboardAvoidingView style={styles.container} behavior="padding">
-            <Image source={require('../assets/logo_correto.png')} style={styles.logo}></Image>
+            <View style={styles.logoContainer}>
+                <Image source={require('../assets/logo_correto.png')} style={styles.logo}></Image>
+            </View>
+            
             
             <View style={styles.inputContainer}>
+                {/* Email */}
                 <TextInput 
                     placeholder='Email'
                     value={email}
                     onChangeText={text => setEmail(text)}
                     style={styles.inputBox}/>
+                {/* Password */}
                 <TextInput 
                     placeholder='Password'
                     value={password}
@@ -60,22 +35,26 @@ const LoginScreen = ({navigation}) => {
                     style={styles.inputBox}
                     secureTextEntry/>
             </View>
-
-            <View >
-                <TouchableOpacity 
-                onPress={()=> {}}>
-                    <Text style={styles.buttonContainer}>Login</Text>
-                </TouchableOpacity>
-            </View>
-
-            <View style={styles.buttonContainer}> 
-                <Button onPress={handleButtonPress} title="Criar conta"></Button>
-                <Text>Não tem conta? 
-                    <TouchableOpacity onPress={() => {}}> 
-                        <Text style={styles.link}>Criar uma!</Text>
+            <View style={styles.buttonsContainer}>
+                <View >
+                    {/* Login */}
+                    <TouchableOpacity 
+                        onPress={()=> {}}>
+                        <Text>Login</Text>
                     </TouchableOpacity>
-                </Text>              
+                </View>
+
+                <View style={styles.buttonContainer}> 
+                    {/* Create account */}    
+                    <TouchableOpacity 
+                        style={styles.button}
+                        onPress={() => {
+                            navigation.navigate('SignupScreen');}}>
+                        <Text style={styles.buttonText}>Criar conta</Text>
+                    </TouchableOpacity>     
+                </View>
             </View>
+            
         </KeyboardAvoidingView>
     );
 }
@@ -85,11 +64,13 @@ export default LoginScreen;
         container:{
             flex:1,
             justifyContent: 'center',
-            alignItems: 'center'
-
+            alignItems: 'center',
         },
         inputContainer:{
-            width:'80%'
+            width:'80%',
+            alignItems: 'center',
+            //flex: 1,
+
         },
         buttonContainer:{
             width: '60%',
@@ -102,16 +83,32 @@ export default LoginScreen;
             width: "90%",
             fontSize: 18,
             color: "white",
-            padding: 12,
-            backgroundColor: "rgb(162, 212, 133)",
+            padding: 12, 
+            backgroundColor: "rgb(197, 228, 180)", //rgb(162, 212, 133)
             borderWidth: 0.5,
             borderRadius: 10,
         },
-        link:{
-            color: "rgb(0, 153, 51)",
-        },
         logo:{
             width: 250,
-            height: 230     
+            height: 230,               
+        },
+        logoContainer:{
+            //flex: 2,
+            alignItems: 'center',
+            justifyContent: 'center' 
+        },
+        button:{
+            color: "rgb(0, 153, 51)",
+
+        },
+        buttonText:{
+            color: "rgb(0, 153, 51)",
+            textAlign: 'center',
+            fontWeight: 'bold',
+            marginTop: 15,
+            fontSize: 20,
+        },
+        buttonsContainer:{
+            //flex: 1,
         }
 });
