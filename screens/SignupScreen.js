@@ -1,32 +1,93 @@
-// import * as React from "react";
+// REACT
 import React, { useState } from 'react';
-import { Text, View, TextInput, SafeAreaView } from "react-native";
+import { StyleSheet, Text, View, TextInput, SafeAreaView , Button, KeyboardAvoidingView } from "react-native";
 import { NavigationContainer, TabActions } from "@react-navigation/native";
+//Firebase
+import { auth } from '../firebase';
+import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
+import { FirebaseError } from 'firebase/app';
+
 
 
 const SignupScreen = () => {
     const [nome, setNome] = useState("");
-    const [apelido, setApelido] = useState("");
     const [utilizador, setUtilizador] = useState("");
-    const [telemovel, setTelemovel] = useState("");
     const [email, setEmail] = useState("");
     const [pass, setPass] = useState("");
     const [vPass, setvPass] = useState("");
 
+    //Handle Register com:
+    //name, email, password
+    function handleRegister(){
+        //not null
+        if(nome=='' || utilizador=='' || email=='' || pass=='' || vPass==''){
+            console.log("Por favor preencha todos os campos obrigatórios");
+        }
+        //Mesma password
+        else if(pass != vPass){
+            console.log("Passwords não combinam");
+        }
+        else{
+            //Criar conta com email e passe
+            createUserWithEmailAndPassword(auth, email, pass) 
+            .then((userCredential) => {
+                const user = userCredential.user;     //object user         
+                //atualizar para adicionar nome
+                updateProfile(auth.currentUser, {
+                    displayName: nome,
+                })
+                .catch((error) => console.log(error.message))
+            })
+            .catch((error) => console.log(error.message) )
+            
+        }
+    }
+
     return(
-    <SafeAreaView>
-        <Text>SignupScreen</Text>
-        <View>
-            <TextInput placeholder="Nome" value={nome} onChangeText={text => setNome(text)}></TextInput>
-            <TextInput placeholder="Apelido" value={apelido} onChangeText={text => setApelido(text)}></TextInput>
-            <TextInput placeholder="Utilizador" value={utilizador} onChangeText={text => setUtilizador(text)}></TextInput>
-            <TextInput placeholder="Telemóvel" value={telemovel} onChangeText={text => setTelemovel(text)}></TextInput>
-            <TextInput placeholder="Email" value={email} onChangeText={text => setEmail(text)}></TextInput>
-            <TextInput placeholder="Palavra-passe" value={pass} onChangeText={text => setPass(text)}></TextInput>
-            <TextInput placeholder="Confirmação de palavra-passe" value={vPass} onChangeText={text => setvPass(text)}></TextInput>
+    <KeyboardAvoidingView style={styles.container} behavior="padding">
+        <View style={styles.sumaryContainer}>
+            <Text>Olá, seja bem-vindo(a)</Text>
+            <Text>Antes de começarmos a reciclar pedimos apenas para preencher este pequeno questionário:</Text>
         </View>
-    </SafeAreaView>
+        <View style={styles.inputContainer}>
+            <TextInput style={styles.inputBox} placeholder="Nome Completo" value={nome} onChangeText={text => setNome(text)}></TextInput>
+            <TextInput style={styles.inputBox} placeholder="Utilizador" value={utilizador} onChangeText={text => setUtilizador(text)}></TextInput>
+            <TextInput style={styles.inputBox} placeholder="Email" value={email} onChangeText={text => setEmail(text)}></TextInput>
+            <TextInput style={styles.inputBox} placeholder="Palavra-passe" value={pass} onChangeText={text => setPass(text)}></TextInput>
+            <TextInput style={styles.inputBox} placeholder="Confirmação de palavra-passe" value={vPass} onChangeText={text => setvPass(text)}></TextInput>          
+        </View>   
+        <View style={styles.submitContainer}>
+            <Button title='Submeter' onPress={handleRegister}></Button>
+        </View>    
+    </KeyboardAvoidingView>
     )
 };
 
 export default SignupScreen;
+const styles = StyleSheet.create({
+    container:{
+        flex:1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    inputBox:{
+        margin: 5,
+        width: "90%",
+        fontSize: 18,
+        color: "white",
+        padding: 12, 
+        backgroundColor: "rgb(197, 228, 180)", 
+        borderWidth: 0.5,
+        borderRadius: 10,
+    },
+    inputContainer:{
+        //flex: 2,
+        alignItems: 'center',
+    },
+    submitContainer:{
+        //flex: 1
+    },
+    sumaryContainer:{
+        alignItems: 'center'
+    }
+});

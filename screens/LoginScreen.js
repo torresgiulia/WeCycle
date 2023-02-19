@@ -2,24 +2,35 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, View, KeyboardAvoidingView, TextInput, TouchableOpacity, Image, Touchable, Button } from 'react-native';
 //Firebase
 import { auth } from '../firebase';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 //React Navigator
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+//import Navigator from '../navigation';
 
 
 const LoginScreen = ({navigation}) => {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+
+    //handle Login with email and password
+    function handleLogin(){
+        signInWithEmailAndPassword(auth, email, password)
+        .then((userCredentials) => {
+            const user = userCredentials.user;
+            navigation.navigate('Navigator');
+        })
+        .catch((error) => console.log(error.message))
+    }
   
     return (
         <KeyboardAvoidingView style={styles.container} behavior="padding">
             <View style={styles.logoContainer}>
                 <Image source={require('../assets/logo_correto.png')} style={styles.logo}></Image>
             </View>
-            
-            
+                      
             <View style={styles.inputContainer}>
                 {/* Email */}
                 <TextInput 
@@ -38,10 +49,7 @@ const LoginScreen = ({navigation}) => {
             <View style={styles.buttonsContainer}>
                 <View >
                     {/* Login */}
-                    <TouchableOpacity 
-                        onPress={()=> {}}>
-                        <Text>Login</Text>
-                    </TouchableOpacity>
+                    <Button title='Login' onPress={handleLogin}></Button>
                 </View>
 
                 <View style={styles.buttonContainer}> 
@@ -69,8 +77,6 @@ export default LoginScreen;
         inputContainer:{
             width:'80%',
             alignItems: 'center',
-            //flex: 1,
-
         },
         buttonContainer:{
             width: '60%',
