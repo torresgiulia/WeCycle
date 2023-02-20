@@ -1,21 +1,16 @@
+//REACT
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, KeyboardAvoidingView, TextInput, TouchableOpacity, Image, Touchable, Button } from 'react-native';
 //Firebase
 import { auth } from '../firebase';
 import { signInWithEmailAndPassword } from 'firebase/auth';
-//React Navigator
-import { NavigationContainer, useNavigation } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-
-//import Navigator from '../navigation';
-
 
 const LoginScreen = ({navigation}) => {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    //handle Login with email and password
+    //Login: email e password
     function handleLogin(){
         signInWithEmailAndPassword(auth, email, password)
         .then((userCredentials) => {
@@ -36,15 +31,16 @@ const LoginScreen = ({navigation}) => {
                 <TextInput 
                     placeholder='Email'
                     value={email}
+                    autoCapitalize='none'
                     onChangeText={text => setEmail(text)}
                     style={styles.inputBox}/>
                 {/* Password */}
                 <TextInput 
                     placeholder='Password'
                     value={password}
+                    secureTextEntry
                     onChangeText={text => setPassword(text)}
-                    style={styles.inputBox}
-                    secureTextEntry/>
+                    style={styles.inputBox}/>
             </View>
             <View style={styles.buttonsContainer}>
                 <View >

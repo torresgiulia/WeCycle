@@ -34,8 +34,13 @@ const SignupScreen = () => {
                 const user = userCredential.user;     //object user         
                 //atualizar para adicionar nome
                 updateProfile(auth.currentUser, {
-                    displayName: nome,
+                    displayName: nome + " " + utilizador,
                 })
+                //APENAS PARA TESTE
+                .then(()=> {
+                    const array = auth.currentUser.displayName.split(" ");
+                    console.log("username: " + array[array.length -1]);
+                } )
                 .catch((error) => console.log(error.message))
             })
             .catch((error) => console.log(error.message) )
@@ -50,11 +55,34 @@ const SignupScreen = () => {
             <Text>Antes de começarmos a reciclar pedimos apenas para preencher este pequeno questionário:</Text>
         </View>
         <View style={styles.inputContainer}>
-            <TextInput style={styles.inputBox} placeholder="Nome Completo" value={nome} onChangeText={text => setNome(text)}></TextInput>
-            <TextInput style={styles.inputBox} placeholder="Utilizador" value={utilizador} onChangeText={text => setUtilizador(text)}></TextInput>
-            <TextInput style={styles.inputBox} placeholder="Email" value={email} onChangeText={text => setEmail(text)}></TextInput>
-            <TextInput style={styles.inputBox} placeholder="Palavra-passe" value={pass} onChangeText={text => setPass(text)}></TextInput>
-            <TextInput style={styles.inputBox} placeholder="Confirmação de palavra-passe" value={vPass} onChangeText={text => setvPass(text)}></TextInput>          
+            <TextInput 
+                style={styles.inputBox} 
+                placeholder="Nome Completo" 
+                value={nome} 
+                autoCapitalize='words'
+                onChangeText={text => setNome(text)}/>
+            <TextInput 
+                style={styles.inputBox} 
+                placeholder="Utilizador" 
+                value={utilizador} 
+                autoCapitalize='none'
+                onChangeText={text => setUtilizador(text)}/>
+            <TextInput 
+                style={styles.inputBox} 
+                placeholder="Email" 
+                value={email} 
+                autoCapitalize='none'
+                onChangeText={text => setEmail(text)}/>
+            <TextInput 
+                style={styles.inputBox} 
+                placeholder="Palavra-passe" 
+                secureTextEntry
+                value={pass} onChangeText={text => setPass(text)}/>
+            <TextInput 
+                style={styles.inputBox} 
+                placeholder="Confirmação de palavra-passe" 
+                secureTextEntry
+                value={vPass} onChangeText={text => setvPass(text)}/>          
         </View>   
         <View style={styles.submitContainer}>
             <Button title='Submeter' onPress={handleRegister}></Button>
@@ -68,7 +96,6 @@ const styles = StyleSheet.create({
     container:{
         flex:1,
         justifyContent: 'center',
-        alignItems: 'center',
     },
     inputBox:{
         margin: 5,
