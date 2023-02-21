@@ -9,7 +9,7 @@ import { FirebaseError } from 'firebase/app';
 
 
 
-const SignupScreen = () => {
+const SignupScreen = ({navigation}) => {
     const [nome, setNome] = useState("");
     const [utilizador, setUtilizador] = useState("");
     const [email, setEmail] = useState("");
@@ -38,8 +38,9 @@ const SignupScreen = () => {
                 })
                 //APENAS PARA TESTE
                 .then(()=> {
-                    const array = auth.currentUser.displayName.split(" ");
-                    console.log("username: " + array[array.length -1]);
+                    navigation.navigate('HomeNavigator');
+                    // const array = auth.currentUser.displayName.split(" ");
+                    // console.log("username: " + array[array.length -1]);
                 } )
                 .catch((error) => console.log(error.message))
             })

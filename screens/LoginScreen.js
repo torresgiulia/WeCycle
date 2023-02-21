@@ -15,7 +15,7 @@ const LoginScreen = ({navigation}) => {
         signInWithEmailAndPassword(auth, email, password)
         .then((userCredentials) => {
             const user = userCredentials.user;
-            navigation.navigate('Navigator');
+            navigation.navigate('HomeNavigator');
         })
         .catch((error) => console.log(error.message))
     }
@@ -53,7 +53,7 @@ const LoginScreen = ({navigation}) => {
                     <TouchableOpacity 
                         style={styles.button}
                         onPress={() => {
-                            navigation.navigate('SignupScreen');}}>
+                            navigation.navigate('Criar conta');}}>
                         <Text style={styles.buttonText}>Criar conta</Text>
                     </TouchableOpacity>     
                 </View>

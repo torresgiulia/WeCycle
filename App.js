@@ -5,21 +5,29 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import LoginScreen from './screens/LoginScreen';
 import SignupScreen from './screens/SignupScreen';
-//import HomeScreen from './screens/HomeScreen';
-import Navigator from './navigation';
-
+import HomeNavigator from './HomeNavigator';
 
 const Auth = createNativeStackNavigator();
-//const Stack = createNativeStackNavigator();
 
+//minuto: 19
+//Para passar informação de uma página para a outra: navigation.navigate("Página", {valor1 = xxx, valor2= xxx})
+//na Stack.Screen: options={({rota}) => { title: rota.params.valor1, title: rota.params.valor2}}
+//useRoute?? 
 function App() {
+
   return (
     <NavigationContainer>
-      <Auth.Navigator initialRouteName="Login">
+      <Auth.Navigator 
+      initialRouteName="Login"
+      screenOptions={{
+        headerTintColor: "white",
+        headerStyle:{
+          backgroundColor: "rgb(120, 202, 78)"},
+        headerBackTitleVisible: false
+      }}>
         <Auth.Screen name="Login" component={LoginScreen} options={{headerShown: false}}/>
-        <Auth.Screen name="SignupScreen" component={SignupScreen}/>
-        <Auth.Screen name="Navigator" component={Navigator}/>
-        {/* <Auth.Screen name="Home" component={HomeScreen} options={{ headerShown: false }}/> */}
+        <Auth.Screen name="Criar conta" component={SignupScreen}/>
+        <Auth.Screen name="HomeNavigator" component={HomeNavigator} options={{headerShown: false}}/>
       </Auth.Navigator>
     </NavigationContainer>
   );
