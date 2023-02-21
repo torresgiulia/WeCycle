@@ -1,9 +1,12 @@
 //REACT
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, KeyboardAvoidingView, TextInput, TouchableOpacity, Image, Touchable, Button } from 'react-native';
+import { StyleSheet, Text, View, KeyboardAvoidingView, TextInput, TouchableOpacity, Image,ImageBackground, Touchable, Button, SafeAreaView } from 'react-native';
 //Firebase
 import { auth } from '../firebase';
 import { signInWithEmailAndPassword } from 'firebase/auth';
+
+//Style
+//import LinearGradient from 'react-native-linear-gradient';
 
 const LoginScreen = ({navigation}) => {
 
@@ -20,97 +23,120 @@ const LoginScreen = ({navigation}) => {
         .catch((error) => console.log(error.message))
     }
   
-    return (
-        <KeyboardAvoidingView style={styles.container} behavior="padding">
-            <View style={styles.logoContainer}>
-                <Image source={require('../assets/logo_correto.png')} style={styles.logo}></Image>
-            </View>
-                      
-            <View style={styles.inputContainer}>
-                {/* Email */}
-                <TextInput 
-                    placeholder='Email'
-                    value={email}
-                    autoCapitalize='none'
-                    onChangeText={text => setEmail(text)}
-                    style={styles.inputBox}/>
-                {/* Password */}
-                <TextInput 
-                    placeholder='Password'
-                    value={password}
-                    secureTextEntry
-                    onChangeText={text => setPassword(text)}
-                    style={styles.inputBox}/>
-            </View>
-            <View style={styles.buttonsContainer}>
-                <View >
-                    {/* Login */}
-                    <Button title='Login' onPress={handleLogin}></Button>
+    return (  
+        <ImageBackground source={require('../assets/Background.png')} resizeMode="cover" style={styles.backImage}>
+            <KeyboardAvoidingView style={styles.container} behavior="padding">
+                <View style={styles.logoContainer}>
+                    <Image source={require('../assets/logo_correto.png')} style={styles.logo}></Image>
                 </View>
-
-                <View style={styles.buttonContainer}> 
-                    {/* Create account */}    
+                        
+                <View style={styles.inputContainer}>
+                    {/* Email */}
+                    <TextInput 
+                        placeholder='Email'
+                        value={email}
+                        autoCapitalize='none'
+                        onChangeText={text => setEmail(text)}
+                        style={styles.inputBox}/>
+                    {/* Password */}
+                    <TextInput 
+                        placeholder='Password'
+                        value={password}
+                        secureTextEntry
+                        onChangeText={text => setPassword(text)}
+                        style={styles.inputBox}/>
+                </View>
+                <View style={styles.btnContainer}>
+                    {/* Login */}
                     <TouchableOpacity 
-                        style={styles.button}
+                            onPress={handleLogin}
+                            activeOpacity={0.7}
+                            style={styles.btnLogin}>
+                        <Text style={styles.btnLoginText}>Login</Text>
+                    </TouchableOpacity>
+                </View>        
+                <View style={styles.signupContainer}> 
+                    {/* Create account */}   
+                    <Text style={styles.textSignup}>Não tem conta? </Text> 
+                    <TouchableOpacity 
                         onPress={() => {
                             navigation.navigate('Criar conta');}}>
-                        <Text style={styles.buttonText}>Criar conta</Text>
+                        <Text style={styles.btnSignup}>Criar!</Text>
                     </TouchableOpacity>     
-                </View>
-            </View>
-            
-        </KeyboardAvoidingView>
+                </View>             
+            </KeyboardAvoidingView>
+        </ImageBackground>
+       
+        
     );
 }
 
 export default LoginScreen;
     const styles = StyleSheet.create({
+        backImage:{
+            flex: 1,
+            justifyContent: 'center',
+        },
         container:{
             flex:1,
             justifyContent: 'center',
             alignItems: 'center',
         },
         inputContainer:{
-            width:'80%',
-            alignItems: 'center',
-        },
-        buttonContainer:{
-            width: '60%',
-            justifyContent: 'center',
-            alignItems:'center',
-            marginTop:40,
+            width: '80%',
+            alignItems: 'center'
         },
         inputBox: {
-            margin: 5,
-            width: "90%",
-            fontSize: 18,
-            color: "white",
-            padding: 12, 
-            backgroundColor: "rgb(197, 228, 180)", //rgb(162, 212, 133)
-            borderWidth: 0.5,
-            borderRadius: 10,
+            borderWidth: 1,
+            borderColor: 'rgb(88, 150, 54)',
+            padding: 15,
+            marginVertical: 10,
+            borderRadius: 5,
+            height: 55,
+            width: '80%',
+            paddingVertical: 0,
         },
         logo:{
-            width: 250,
+            width: 260,
             height: 230,               
         },
         logoContainer:{
-            //flex: 2,
             alignItems: 'center',
             justifyContent: 'center' 
         },
-        button:{
-            color: "rgb(0, 153, 51)",
-
+        btnContainer:{
+            margin: 10,
+            backgroundColor: "rgb(99, 169, 61)",
+            borderRadius: 10,
+            paddingVertical: 10,
+            paddingHorizontal: 10,
+            width: '40%'
         },
-        buttonText:{
-            color: "rgb(0, 153, 51)",
+        btnLogin:{
             textAlign: 'center',
-            fontWeight: 'bold',
-            marginTop: 15,
-            fontSize: 20,
+            justifyContent: 'center',
+            alignItems: 'center',
+            width: '100%',
+            height: 30,
         },
-        buttonsContainer:{
-            //flex: 1,
+        btnLoginText:{
+            fontSize: 18,
+            color: "#fff",
+            fontWeight: "bold",
+            alignSelf: "center",
+            textTransform: "uppercase"
+        },
+        signupContainer:{
+            flexDirection: 'row',
+            margin: 10
+        },
+        btnSignup:{
+            color: 'rgb(88, 150, 54)',
+            fontWeight: "bold",
+            fontSize: 18
+        },
+        textSignup:{
+            fontSize: 16
         }
+        
 });

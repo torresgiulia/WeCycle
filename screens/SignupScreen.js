@@ -1,6 +1,6 @@
 // REACT
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TextInput, SafeAreaView , Button, KeyboardAvoidingView } from "react-native";
+import { StyleSheet, Text, View, TextInput, SafeAreaView , Button, KeyboardAvoidingView, TouchableOpacity } from "react-native";
 import { NavigationContainer, TabActions } from "@react-navigation/native";
 //Firebase
 import { auth } from '../firebase';
@@ -50,10 +50,10 @@ const SignupScreen = ({navigation}) => {
     }
 
     return(
-    <KeyboardAvoidingView style={styles.container} behavior="padding">
+    <KeyboardAvoidingView style={styles.container} >
         <View style={styles.sumaryContainer}>
             <Text>Olá, seja bem-vindo(a)</Text>
-            <Text>Antes de começarmos a reciclar pedimos apenas para preencher este pequeno questionário:</Text>
+            <Text>Antes de começarmos a reciclar pedimos apenas para preencher este pequeno formulário:</Text>
         </View>
         <View style={styles.inputContainer}>
             <TextInput 
@@ -64,7 +64,7 @@ const SignupScreen = ({navigation}) => {
                 onChangeText={text => setNome(text)}/>
             <TextInput 
                 style={styles.inputBox} 
-                placeholder="Utilizador" 
+                placeholder="Nome de utilizador" 
                 value={utilizador} 
                 autoCapitalize='none'
                 onChangeText={text => setUtilizador(text)}/>
@@ -86,7 +86,9 @@ const SignupScreen = ({navigation}) => {
                 value={vPass} onChangeText={text => setvPass(text)}/>          
         </View>   
         <View style={styles.submitContainer}>
-            <Button title='Submeter' onPress={handleRegister}></Button>
+            <TouchableOpacity onPress={handleRegister} style={styles.btnSubmit}>
+                <Text style={styles.btnSubmitText}>Submeter</Text>
+            </TouchableOpacity>
         </View>    
     </KeyboardAvoidingView>
     )
@@ -97,23 +99,44 @@ const styles = StyleSheet.create({
     container:{
         flex:1,
         justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgb(245, 253, 242)',
     },
     inputBox:{
-        margin: 5,
-        width: "90%",
-        fontSize: 18,
-        color: "white",
-        padding: 12, 
-        backgroundColor: "rgb(197, 228, 180)", 
-        borderWidth: 0.5,
-        borderRadius: 10,
+        borderWidth: 1,
+        borderColor: 'rgb(88, 150, 54)',
+        padding: 15,
+        marginVertical: 10,
+        borderRadius: 5,
+        height: 55,
+        width: '80%',
+        paddingVertical: 0,
     },
     inputContainer:{
-        //flex: 2,
-        alignItems: 'center',
+        width: '80%',
+        alignItems: 'center'
     },
     submitContainer:{
-        //flex: 1
+        margin: 10,
+        backgroundColor: "rgb(99, 169, 61)",
+        borderRadius: 10,
+        paddingVertical: 10,
+        paddingHorizontal: 10,
+        width: '40%'
+    },
+    btnSubmit:{
+        textAlign: 'center',
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '100%',
+        height: 30,
+    },
+    btnSubmitText:{
+        fontSize: 18,
+        color: "#fff",
+        fontWeight: "bold",
+        alignSelf: "center",
+        textTransform: "uppercase"
     },
     sumaryContainer:{
         alignItems: 'center'
