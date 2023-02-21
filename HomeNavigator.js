@@ -12,6 +12,7 @@ import ProfileScreen from './screens/ProfileScreen'
 
 //Custom navigation style
 import TabBarButton from './customNavigation/TabBarButton';
+import BottomTabBarButton from './customNavigation/BottomTabBarButton'
 
 const Tab = createBottomTabNavigator();
 
@@ -20,9 +21,9 @@ const Tab = createBottomTabNavigator();
 function HomeNavigator() {
   return (
     <Tab.Navigator 
+      tabBar={props => <BottomTabBarButton {... props} />}
       screenOptions={({route}) => ({ 
         headerShown: false,
-        //tabBarStyle: {height: 100},
         tabBarShowLabel: false,
         tabBarActiveTintColor: "rgb(120, 202, 78)",
         tabBarInactiveTintColor: "rgb(51, 51, 51)",
@@ -43,7 +44,7 @@ function HomeNavigator() {
               icon = focused ? 'ios-person' : 'ios-person-outline';
               break;
           };
-          return <Icon name={icon} size={22} color={color} />
+          return <Icon name={icon} size={26} color={color}/>;
         }
         })}>
       <Tab.Screen 
@@ -77,8 +78,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     borderTopWidth: 0,
     bottom: 15,
-    right: 15,
+    right: 10,
     left: 10,
-    height: 92 
+    height: 92,
   }
 })
