@@ -8,15 +8,15 @@ import { StyleSheet} from 'react-native';
 import HomeScreen from './screens/HomeScreen';
 import BarcodeScreen from './screens/BarcodeScreen'
 import LocationScreen from './screens/LocationScreen';
-import ProfileScreen from './screens/ProfileScreen'
+import ProfileScreen from './screens/ProfileScreen';
+
+import ProductNavigation from './customNavigation/ProductNavigation';
 
 //Custom navigation style
 import TabBarButton from './customNavigation/TabBarButton';
 import BottomTabBarButton from './customNavigation/BottomTabBarButton'
 
 const Tab = createBottomTabNavigator();
-
-//Drawer navigator: 42 min *navegação aberta do lado esquerdo
 
 function HomeNavigator() {
   return (
@@ -34,7 +34,7 @@ function HomeNavigator() {
             case 'Home':
               icon = focused ? 'ios-home-sharp' : 'ios-home-outline'; 
               break;
-            case 'Barcode': 
+            case 'ProductNavigation': 
               icon = focused ? 'ios-barcode' : 'ios-barcode-outline';
               break;
             case 'Location': 
@@ -53,8 +53,8 @@ function HomeNavigator() {
         options={{tabBarButton: props => <TabBarButton {... props}/>}}
       />
       <Tab.Screen 
-        name="Barcode" 
-        component={BarcodeScreen} 
+        name="ProductNavigation" 
+        component={ProductNavigation} 
         options={{tabBarButton: props => <TabBarButton {... props}/>}}
         />
       <Tab.Screen 

@@ -1,86 +1,9 @@
-// import { Text, View, StyleSheet, Button } from "react-native";
-// import { BarCodeScanner } from 'expo-barcode-scanner';
-// import React, { useState, useEffect } from 'react';
-
-// export default function BarcodeScreen() {
-//     const [hasPermission, setHasPermission] = useState(null);
-//     const [scanned, setScanned] = useState(false);
-//     const [id, setId] = useState('Not yet scanned');
-
-//     const askForCameraPermission = () => {
-//         (async () => {
-//             console.log("entrouuu");
-//             const { status } = await BarCodeScanner.requestPermissionsAsync();
-//             setHasPermission(status == 'granted');
-//         })()
-//     }
-    
-//     //Permissão da camera
-//     useEffect(() => {
-//         askForCameraPermission();
-//     }, []);
-
-//     //Código-de-barra escaneado
-//     const handleBarCodeScanned = ({ type, data}) => {
-//         setScanned(true);
-//         setId(data);
-//         console.log("Tipo: " + type + "\nID: " + data);
-//     }
-
-//     //A PEDIR PERMISSÃO 
-//     if(hasPermission === null){
-//         return(
-//             <View style={styles.container}>
-//                 <Text>A pedir permissão</Text>
-//             </View>
-//         ); 
-//     }
-
-//     //PERMISSÃO NEGADA 
-//     if(hasPermission === false){
-//         return(
-//             <View style={styles.container}>
-//                 <Text>Sem acesso à camera</Text>
-//                 <Button title={'Permitir acesso'} onPress={() => askForCameraPermission()}></Button>
-//             </View>
-//         ); 
-//     }
-
-//     //PERMISSÃO CONCEDIDA
-//     return(
-//         <View style={styles.container}>
-//             <View style={styles.barcodeContainer}>
-//                 <BarCodeScanner 
-//                 onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
-//                 style={{height: 400, height:400}}/>
-//             </View>
-//             <Text>{id}</Text>
-//         </View>
-//     ); 
-// };
-
-
-// const styles = StyleSheet.create({
-//     container:{
-//         flex: 1,
-//         alignItems: 'center',
-//         justifyContent: 'center',   
-//         //backgroundColor: "rgb(225, 243, 216)",
-//     },
-//     barcodeContainer:{
-//         alignItems: 'center',
-//         height: 300,
-//         width: 300,
-//         overflow: "hidden",
-//         borderRadius: 30,
-//         backgroundColor: 'tomato'
-//     }
-// })
 import React, { useState, useEffect } from 'react';
 import { Text, View, StyleSheet, Button } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
+import ProductScreen from './ProductScreen';
 
-export default function BarcodeScreen() {
+export default function BarcodeScreen({navigation}) {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
   const [id, setId] = useState('Produto não escaneado');
@@ -98,11 +21,15 @@ export default function BarcodeScreen() {
   }, []);
 
 
+
   // What happens when we scan the bar code
   const handleBarCodeScanned = ({ type, data }) => {
     setScanned(true);
     setId(data)
     console.log('Type: ' + type + '\nData: ' + data)
+    //Abrir nova página aqui
+    navigation.navigate('Product');
+    //navigation.navigate(ProductScreen)
   };
 
   // Check permissions and return the screens
