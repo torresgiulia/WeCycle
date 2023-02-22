@@ -2,11 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Text, View, StyleSheet, Button } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 
-//minuto: 19
-//Para passar informação de uma página para a outra: navigation.navigate("Página", {valor1 = xxx, valor2= xxx})
-//na Stack.Screen: options={({rota}) => { title: rota.params.valor1, title: rota.params.valor2}}
-//useRoute?? 
-
 const BarcodeScreen = ({navigation}) => {
 
     const [hasPermission, setHasPermission] = useState(null);
@@ -31,9 +26,7 @@ const BarcodeScreen = ({navigation}) => {
     const handleBarCodeScanned = ({ type, data }) => {
         setScanned(true);
         setId(data)
-        console.log('Type: ' + type + '\nData: ' + data)
-        //Abrir nova página aqui
-        navigation.navigate('Product');
+        navigation.navigate('Product', {itemId: data});
     };
 
     // Checar permissões
@@ -58,7 +51,7 @@ const BarcodeScreen = ({navigation}) => {
             onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
             style={{ height: 400, width: 400 }} />
         </View>
-        <Text style={styles.maintext}>{id}</Text>
+        {/* <Text style={styles.maintext}>{id}</Text> */}
 
         {scanned && <Button title={'Escanear novamente'} onPress={() => setScanned(false)} color='tomato' />}
         </View>

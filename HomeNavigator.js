@@ -32,19 +32,19 @@ function HomeNavigator() {
           let icon;
           switch(route.name){
             case 'Home':
-              icon = focused ? 'ios-home-sharp' : 'ios-home-outline'; 
+              icon = focused ? 'home-sharp' : 'home-outline'; 
               break;
             case 'ProductNavigation': 
-              icon = focused ? 'ios-barcode' : 'ios-barcode-outline';
+              icon = focused ? 'barcode' : 'barcode-outline';
               break;
             case 'Location': 
-              icon = focused ? 'ios-location-sharp' : 'ios-location-outline';
+              icon = focused ? 'location-sharp' : 'location-outline';
               break;
             case 'Profile': 
-              icon = focused ? 'ios-person' : 'ios-person-outline';
+              icon = focused ? 'person' : 'person-outline';
               break;
           };
-          return <Icon name={icon} size={26} color={color}/>;
+          return <Icon ios={icon} android={'md-add'} name={icon} size={26} color={color}/>;
         }
         })}>
       <Tab.Screen 

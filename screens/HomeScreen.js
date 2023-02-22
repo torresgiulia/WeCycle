@@ -7,16 +7,14 @@ import { StyleSheet } from "react-native";
 const HomeScreen = () => {
     return(
         <SafeAreaView style={styles.container}>
-            <Text style={styles.background}>homeeeeeeeeee</Text>
+            <Text>Home Screen</Text>
         </SafeAreaView>
     )
 };
 
 export default HomeScreen;
 const styles = StyleSheet.create({
-    background:{
-        backgroundColor: "rgb(120, 202, 78)",
-    },
+
     container:{
         flex: 1,
         alignItems: 'center',
