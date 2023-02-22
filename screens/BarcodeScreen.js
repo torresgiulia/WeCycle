@@ -51,7 +51,6 @@ const BarcodeScreen = ({navigation}) => {
             onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
             style={{ height: 400, width: 400 }} />
         </View>
-        {/* <Text style={styles.maintext}>{id}</Text> */}
 
         {scanned && <Button title={'Escanear novamente'} onPress={() => setScanned(false)} color='tomato' />}
         </View>
