@@ -9,37 +9,79 @@ import { useEffect, useState, Component } from 'react';
 //FIREBASE
 import { db } from '../firebase';
 import { collection, getDocs } from 'firebase/firestore';
+import { async } from '@firebase/util';
 
 export default function ProductScreen({route, navigation}){
     //Id(barcode) do produto
     const itemId = route.params;
     const prodId = JSON.stringify(itemId).replace(/\D/g, "");
 
-    const [products, setProducts] = useState([]);
+    //Product
     const productRef = collection(db, "products");
+    const [products, setProducts] = useState([]); 
     const [productAttributes, setProductAttributes] = useState([]);
 
-    //teste
-    const [readProduct, setReadProduct] = useState([]);
+    //Composition and container
+    const compositionRef = collection(db, "composition");   
+    const [materialComposition, setMaterialComposition] = useState([]);
+    const [productComposition, setProductComposition] = useState([]);
+
+    const [materialContainer, setMaterialContainer] = useState([]);
+    const containerRef = collection(db, "container");
 
     //Use hook and store products
     useEffect(() => {     
         getProduct();
+        getComposition();
+        getContainer
     }, []);
-    const getProduct = async () => {
-        const data = await getDocs(productRef);
-        setProducts(data.docs.map((doc)=> ({...doc.data(), id: doc.id})));
-           
-    };  
+
+    const getProduct = async () => {                                                //product
+        const productData = await getDocs(productRef);
+        setProducts(productData.docs.map((doc)=> ({...doc.data(), id: doc.id})));    
+    }; 
+    const getComposition = async () => {                                            //composition
+        const compositionData = await getDocs(compositionRef);
+        setMaterialComposition(compositionData.docs.map((doc)=>({...doc.data(), id: doc.id})))
+    }; 
+    const getContainer = async () => {                                              //container
+        const containerData = await getDocs(containerRef);
+        setMaterialContainer(containerData.docs.map((doc)=> ({...doc.data(), id: doc.id})))
+    }
+
+
 
     //Hook after object render and specify product
-    useEffect(() => {     
+    useEffect(() => {  
         products.forEach((product) => {
             if(product.id == prodId){
-                setProductAttributes(product)
+                setProductAttributes(product);
+                materialComposition.forEach((material) => {
+                    if(material.codigo_barras == prodId){
+
+                        //não sei porque não funciona !!!!!!!!!!!
+                        //console.log(material);
+                        setProductComposition(material);
+                        //console.log(productComposition);
+                        
+                        // if(productComposition && Object.keys(productComposition).length === 0)
+                        // {
+                        //     console.log("oi");
+                        //     setProductComposition(material);
+                        //     console.log(productComposition);
+                        // }
+                        // else{
+                        //     const materiais = productComposition + " ," + material;
+                        //     console.log(materiais);
+                        //     setProductComposition(materiais);
+    
+                        // }
+                    }
+                })
+                
             }
         })
-    }, [products]);
+    }, [products, materialComposition, productComposition]);
     
 
 
@@ -51,6 +93,8 @@ export default function ProductScreen({route, navigation}){
                 <Text>Instruções de descarte: {productAttributes.instrucoes}</Text>
                 <Text>Link para mais informações: {productAttributes.link}</Text>
                 <Text>Fabricante: {productAttributes.fabricante}</Text>
+                <Text>Material: </Text>
+                <Text>Parte: </Text>
             </View>
             <TouchableOpacity>
                 <Text onPress={() => navigation.navigate('Barcode')}>Voltar</Text>
