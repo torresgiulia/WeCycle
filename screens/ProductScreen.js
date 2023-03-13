@@ -60,7 +60,7 @@ export default function ProductScreen({route, navigation}){
                     if(material.codigo_barras == prodId){
 
                         //não sei porque não funciona !!!!!!!!!!!
-                        //console.log(material);
+                        //ver: react native usestate add new element
                         setProductComposition(material);
                         //console.log(productComposition);
                         

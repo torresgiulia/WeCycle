@@ -1,13 +1,23 @@
 //import * as React from "react";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Text, View, SafeAreaView} from "react-native";
 import { NavigationContainer, TabActions } from "@react-navigation/native";
 import { StyleSheet } from "react-native";
 
-const HomeScreen = () => {
+const HomeScreen = ({route}) => {
+    //Adicionar posts e passar info do login
+    const [email, setEmail] = useState([]);
+
+    useEffect(()=> {
+        //const email = route.params.userEmail;
+        setEmail(route.params.userEmail);
+        //console.log(email);
+    }, [email]);
+
     return(
         <SafeAreaView style={styles.container}>
             <Text>Home Screen</Text>
+            <Text>{email}</Text>
         </SafeAreaView>
     )
 };

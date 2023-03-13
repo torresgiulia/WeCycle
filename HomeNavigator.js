@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { StyleSheet} from 'react-native';
@@ -18,7 +18,9 @@ import BottomTabBarButton from './customNavigation/BottomTabBarButton'
 
 const Tab = createBottomTabNavigator();
 
-function HomeNavigator() {
+export default function HomeNavigator({route}) {
+  const email = route.params.userEmail;
+
   return (
     <Tab.Navigator 
       tabBar={props => <BottomTabBarButton {... props} />}
@@ -50,6 +52,7 @@ function HomeNavigator() {
       <Tab.Screen 
         name="Home" 
         component={HomeScreen} 
+        initialParams={{userEmail: email}}
         options={{tabBarButton: props => <TabBarButton {... props}/>}}
       />
       <Tab.Screen 
@@ -71,7 +74,7 @@ function HomeNavigator() {
   );
 }
 
-export default HomeNavigator;
+
 const styles = StyleSheet.create({
   tabBar:{
     position: 'absolute',
