@@ -4,14 +4,22 @@ import { Text, View, SafeAreaView} from "react-native";
 import { NavigationContainer, TabActions } from "@react-navigation/native";
 import { StyleSheet } from "react-native";
 
+import { auth } from '../firebase';
+//import { getUserByEmail } from 'firebase/auth';
+
+
 const HomeScreen = ({route}) => {
     //Adicionar posts e passar info do login
     const [email, setEmail] = useState([]);
 
     useEffect(()=> {
-        //const email = route.params.userEmail;
         setEmail(route.params.userEmail);
-        //console.log(email);
+        // auth.get
+        // getUserByEmail(auth, email)
+        // .then((data) => {console.log(data)})
+
+        
+        //Criar tabela de user para adicionar e buscar a infomação necessária
     }, [email]);
 
     return(
@@ -29,6 +37,6 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',   
-        //backgroundColor: "rgb(225, 243, 216)",
+        backgroundColor: "rgb(225, 243, 216)",
     }
 })
