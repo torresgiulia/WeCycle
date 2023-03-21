@@ -1,3 +1,5 @@
+//Pedir permissão e ler código de barra
+
 import React, { useState, useEffect } from 'react';
 import { Text, View, StyleSheet, Button } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
@@ -6,7 +8,6 @@ const BarcodeScreen = ({navigation}) => {
 
     const [hasPermission, setHasPermission] = useState(null);
     const [scanned, setScanned] = useState(false);
-    const [id, setId] = useState('Produto não escaneado');
 
     const askForCameraPermission = () => {
         (async () => {

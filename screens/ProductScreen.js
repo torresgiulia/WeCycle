@@ -88,7 +88,6 @@ export default function ProductScreen({route, navigation}){
     return(
         <View style={styles.container}>
             <View>
-                {/* <Text>ID: {prodId}</Text> */}
                 <Text>Nome: {productAttributes ? JSON.stringify(productAttributes.nome) : 'A carregar'}</Text>
                 <Text>Instruções de descarte: {productAttributes.instrucoes}</Text>
                 <Text>Link para mais informações: {productAttributes.link}</Text>

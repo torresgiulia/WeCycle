@@ -4,23 +4,30 @@ import { Text, View, SafeAreaView} from "react-native";
 import { NavigationContainer, TabActions } from "@react-navigation/native";
 import { StyleSheet } from "react-native";
 
-import { auth } from '../firebase';
+import { auth, db } from '../firebase';
+import { collection } from "firebase/firestore";
 //import { getUserByEmail } from 'firebase/auth';
 
 
 const HomeScreen = ({route}) => {
-    //Adicionar posts e passar info do login
+
     const [email, setEmail] = useState([]);
+    const userRef = collection(db, "user");
+    const [user, setUser] = useState([]);
 
     useEffect(()=> {
         setEmail(route.params.userEmail);
-        // auth.get
-        // getUserByEmail(auth, email)
-        // .then((data) => {console.log(data)})
+        getUser();
+        //Criar tabela de user para adicionar e buscar a infomação necessária
 
         
-        //Criar tabela de user para adicionar e buscar a infomação necessária
     }, [email]);
+
+    const getUser = async () => {                                              //container
+        const userContainer = await getDocs(userRef);
+        setUser(userContainer.docs.map((doc)=> ({...doc.data(), id: doc.id})));
+    }
+
 
     return(
         <SafeAreaView style={styles.container}>
