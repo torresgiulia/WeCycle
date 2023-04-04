@@ -24,10 +24,13 @@ export default function ProductScreen({route, navigation}){
     //Composition and container
     const compositionRef = collection(db, "composition");   
     const [materialComposition, setMaterialComposition] = useState([]);
-    const [productComposition, setProductComposition] = useState([]);
 
-    const [materialContainer, setMaterialContainer] = useState([]);
+    //Parts of product
+    const [productPart, setProductPart] = useState([]);
+    const [productMaterial, setProductMaterial] = useState([]);
+
     const containerRef = collection(db, "container");
+    const [materialContainer, setMaterialContainer] = useState([]);
 
     //Use hook and store products
     useEffect(() => {     
@@ -56,32 +59,19 @@ export default function ProductScreen({route, navigation}){
         products.forEach((product) => {
             if(product.id == prodId){
                 setProductAttributes(product);
-                materialComposition.forEach((material) => {
-                    if(material.codigo_barras == prodId){
+                materialComposition.forEach((composition) => {
+                    if(composition.codigo_barras == prodId){
 
-                        //não sei porque não funciona !!!!!!!!!!!
-                        //ver: react native usestate add new element
-                        setProductComposition(material);
-                        //console.log(productComposition);
-                        
-                        // if(productComposition && Object.keys(productComposition).length === 0)
-                        // {
-                        //     console.log("oi");
-                        //     setProductComposition(material);
-                        //     console.log(productComposition);
-                        // }
-                        // else{
-                        //     const materiais = productComposition + " ," + material;
-                        //     console.log(materiais);
-                        //     setProductComposition(materiais);
-    
-                        // }
+                        //Fazer um if para checar se o valor está nulo e não colocar vígula antes
+                        setProductMaterial(oldArray => [...oldArray, ", " ,composition.material]);
+                        setProductPart(oldArray => [...oldArray, ", ", composition.parte]);  
+
                     }
                 })
                 
             }
         })
-    }, [products, materialComposition, productComposition]);
+    }, [products, materialComposition]);//, productComposition]);
     
 
 
@@ -92,8 +82,8 @@ export default function ProductScreen({route, navigation}){
                 <Text>Instruções de descarte: {productAttributes.instrucoes}</Text>
                 <Text>Link para mais informações: {productAttributes.link}</Text>
                 <Text>Fabricante: {productAttributes.fabricante}</Text>
-                <Text>Material: </Text>
-                <Text>Parte: </Text>
+                <Text>Material: {productMaterial}</Text>
+                <Text>Parte: {productPart}</Text>
             </View>
             <TouchableOpacity>
                 <Text onPress={() => navigation.navigate('Barcode')}>Voltar</Text>

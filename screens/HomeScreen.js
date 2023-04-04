@@ -4,24 +4,34 @@ import { Text, View, SafeAreaView} from "react-native";
 import { NavigationContainer, TabActions } from "@react-navigation/native";
 import { StyleSheet } from "react-native";
 
-import { auth, db } from '../firebase';
-import { collection } from "firebase/firestore";
-//import { getUserByEmail } from 'firebase/auth';
+import { db } from '../firebase';
+import { collection, getDocs } from 'firebase/firestore';
+
 
 
 const HomeScreen = ({route}) => {
 
-    const [email, setEmail] = useState([]);
-    const userRef = collection(db, "user");
-    const [user, setUser] = useState([]);
+    //user db ref
+    const userRef = collection(db, "users");
 
+    const [email, setEmail] = useState([]);
+    const [users, setUser] = useState([]);
+    const [username, setUsername] = useState([]);
+
+    //Get user info
     useEffect(()=> {
         setEmail(route.params.userEmail);
         getUser();
-        //Criar tabela de user para adicionar e buscar a infomação necessária
+    }, []);
 
-        
-    }, [email]);
+    //Set username
+    useEffect(() => {
+        users.forEach((user) => {
+            if(user.email == email){
+                setUsername(user.username);
+            }
+        });
+    }, [users])
 
     const getUser = async () => {                                              //container
         const userContainer = await getDocs(userRef);
@@ -31,8 +41,7 @@ const HomeScreen = ({route}) => {
 
     return(
         <SafeAreaView style={styles.container}>
-            <Text>Home Screen</Text>
-            <Text>{email}</Text>
+            <Text>Olá, {username}</Text>
         </SafeAreaView>
     )
 };

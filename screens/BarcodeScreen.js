@@ -8,6 +8,7 @@ const BarcodeScreen = ({navigation}) => {
 
     const [hasPermission, setHasPermission] = useState(null);
     const [scanned, setScanned] = useState(false);
+    const [id, setId] = useState([]);
 
     const askForCameraPermission = () => {
         (async () => {
