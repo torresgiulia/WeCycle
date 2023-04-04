@@ -21,7 +21,7 @@ export default function ProductScreen({route, navigation}){
     const [products, setProducts] = useState([]); 
     const [productAttributes, setProductAttributes] = useState([]);
 
-    //Composition and container
+    //Composition
     const compositionRef = collection(db, "composition");   
     const [materialComposition, setMaterialComposition] = useState([]);
 
@@ -29,14 +29,16 @@ export default function ProductScreen({route, navigation}){
     const [productPart, setProductPart] = useState([]);
     const [productMaterial, setProductMaterial] = useState([]);
 
+    //Container(lixo)
     const containerRef = collection(db, "container");
     const [materialContainer, setMaterialContainer] = useState([]);
+    const [productContainer, setProductContainer] = useState([]);
 
     //Use hook and store products
     useEffect(() => {     
         getProduct();
         getComposition();
-        getContainer
+        getContainer();
     }, []);
 
     const getProduct = async () => {                                                //product
@@ -57,21 +59,41 @@ export default function ProductScreen({route, navigation}){
     //Hook after object render and specify product
     useEffect(() => {  
         products.forEach((product) => {
+
+            //Código de barras = código lido
             if(product.id == prodId){
                 setProductAttributes(product);
                 materialComposition.forEach((composition) => {
-                    if(composition.codigo_barras == prodId){
 
-                        //Fazer um if para checar se o valor está nulo e não colocar vígula antes
-                        setProductMaterial(oldArray => [...oldArray, ", " ,composition.material]);
-                        setProductPart(oldArray => [...oldArray, ", ", composition.parte]);  
+                    //encontrar composição do produto
+                    if(composition.codigo_barras == prodId){
+                        setProductMaterial(oldArray => [...oldArray,composition.material + ", "]);
+                        setProductPart(oldArray => [...oldArray, composition.parte + ", "]);  
+                        
+                        // //Dividir nos lixos
+                        if(product.separar == false){
+                            materialContainer.forEach((container) => {
+                                if(container.material == product.material_principal){
+                                    setProductContainer(container.cor + " (" + container.material + ")");
+                                }
+                            });
+                        }
+                        else{
+                            materialContainer.forEach((container) => {
+                                if(container.material == composition.material){
+                                    setProductContainer(oldArray => [...oldArray, container.cor + " (" + container.material + "), "]);
+                                }
+                            });
+                        }
+
+                        //POR QUE ESTÁ REPETINDO???
 
                     }
                 })
                 
             }
         })
-    }, [products, materialComposition]);//, productComposition]);
+    }, [products, materialComposition, materialContainer]);
     
 
 
@@ -84,6 +106,7 @@ export default function ProductScreen({route, navigation}){
                 <Text>Fabricante: {productAttributes.fabricante}</Text>
                 <Text>Material: {productMaterial}</Text>
                 <Text>Parte: {productPart}</Text>
+                <Text>Lixo: {productContainer}</Text>
             </View>
             <TouchableOpacity>
                 <Text onPress={() => navigation.navigate('Barcode')}>Voltar</Text>

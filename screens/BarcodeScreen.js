@@ -1,8 +1,11 @@
 //Pedir permissão e ler código de barra
 
-import React, { useState, useEffect } from 'react';
-import { Text, View, StyleSheet, Button } from 'react-native';
+import React, { useState, useEffect, Fragment } from 'react';
+import { Text, View, StyleSheet, Button, TextInput } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
+
+import SearchBar from './SearchBar';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const BarcodeScreen = ({navigation}) => {
 
@@ -47,24 +50,37 @@ const BarcodeScreen = ({navigation}) => {
 
     // Permissão concedida
     return (
-        <View style={styles.container}>
-        <View style={styles.barcodeContainer}>
-            <BarCodeScanner
-            onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
-            style={{ height: 400, width: 400 }} />
-        </View>
+        <SafeAreaView style={styles.page}>
+            <View styles={styles.inputBoxContainer}>
+                <SearchBar></SearchBar>
+                {/* onTextChange abrir tela de itens correspondentes a pesquisa */}
+            </View>
 
-        {scanned && <Button title={'Escanear novamente'} onPress={() => setScanned(false)} color='tomato' />}
-        </View>
+            <View style={styles.container}>
+                <View style={styles.barcodeContainer}>
+                    <BarCodeScanner
+                    onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+                    style={{ height: 400, width: 400 }} />
+                </View>
+
+            {scanned && <Button title={'Escanear novamente'} onPress={() => setScanned(false)} color='tomato' />}
+            </View>
+        </SafeAreaView>
+        
     );
 }
 export default BarcodeScreen;
 
 const styles = StyleSheet.create({
+  page:{
+    flex: 1,
+  },
+
   container: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    marginBottom: '70%'
   },
   maintext: {
     fontSize: 16,
@@ -78,6 +94,7 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     borderRadius: 30,
     backgroundColor: 'tomato'
-  }
+  },
+
 });
 
