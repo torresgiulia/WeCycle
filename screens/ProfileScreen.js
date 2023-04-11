@@ -2,7 +2,7 @@
 import { Text, View, StyleSheet } from "react-native";
 import { NavigationContainer, TabActions } from "@react-navigation/native";
 
-const ProfileScreen = () => {
+export default function ProfileScreen() {
     return(
         <View style={styles.container}>
             <Text>Profile Screen</Text>
@@ -10,7 +10,6 @@ const ProfileScreen = () => {
     )
 };
 
-export default ProfileScreen;
 const styles = StyleSheet.create({
     container:{
         flex: 1,

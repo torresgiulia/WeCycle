@@ -1,10 +1,7 @@
-//Pedir permissão e ler código de barra
-
-import React, { useState, useEffect, Fragment } from 'react';
+//REACT
+import React, { useState, useEffect, Fragment, useRef } from 'react';
 import { Text, View, StyleSheet, Button, TextInput } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
-
-import SearchBar from './SearchBar';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 const BarcodeScreen = ({navigation}) => {
@@ -13,18 +10,20 @@ const BarcodeScreen = ({navigation}) => {
     const [scanned, setScanned] = useState(false);
     const [id, setId] = useState([]);
 
+    //Inicializar InputText sem .focus
+    const input = useRef(null);
+    const handleInputText = () => {
+        input.current.blur();
+        navigation.navigate('Search');
+    }
+
+
     const askForCameraPermission = () => {
         (async () => {
         const { status } = await BarCodeScanner.requestPermissionsAsync();
         setHasPermission(status === 'granted');
         })()
     }
-
-    // Permissão da camera
-    useEffect(() => {
-        askForCameraPermission();
-    }, []);
-
 
 
     // Código escaneado
@@ -33,6 +32,10 @@ const BarcodeScreen = ({navigation}) => {
         setId(data)
         navigation.navigate('Product', {itemId: data});
     };
+
+    useEffect(() => {
+        askForCameraPermission();
+    }, []);
 
     // Checar permissões
     if (hasPermission === null) {
@@ -48,12 +51,18 @@ const BarcodeScreen = ({navigation}) => {
         </View>)
     }
 
-    // Permissão concedida
+    
+
+    
+    
+
+    // Permissão concedida  
     return (
-        <SafeAreaView style={styles.page}>
-            <View styles={styles.inputBoxContainer}>
-                <SearchBar></SearchBar>
-                {/* onTextChange abrir tela de itens correspondentes a pesquisa */}
+        <View style={styles.page}>
+            <View style={styles.searchBar}>
+                <View style={styles.textBoxContainer}>         
+                    <TextInput placeholder=' Pesquisar produtos...' ref={input} onFocus={() => handleInputText()}></TextInput>                                  
+                </View>
             </View>
 
             <View style={styles.container}>
@@ -65,36 +74,52 @@ const BarcodeScreen = ({navigation}) => {
 
             {scanned && <Button title={'Escanear novamente'} onPress={() => setScanned(false)} color='tomato' />}
             </View>
-        </SafeAreaView>
+        </View>
         
     );
 }
 export default BarcodeScreen;
 
 const styles = StyleSheet.create({
-  page:{
-    flex: 1,
-  },
-
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: '70%'
-  },
-  maintext: {
-    fontSize: 16,
-    margin: 20,
-  },
-  barcodeContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    height: 300,
-    width: 300,
-    overflow: 'hidden',
-    borderRadius: 30,
-    backgroundColor: 'tomato'
-  },
+    page:{
+        flex: 1,
+    },
+    container: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginBottom: '30%',
+    },
+    maintext: {
+        fontSize: 16,
+        margin: 20,
+    },
+    barcodeContainer: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: 300,
+        width: 300,
+        overflow: 'hidden',
+        borderRadius: 30,
+        backgroundColor: 'tomato'
+    },
+    textBoxContainer:{
+        width: '80%',
+        height: 60,
+        backgroundColor: 'rgb(245, 253, 242)',
+        borderRadius: 5,
+        borderColor: 'rgb(52, 99, 28)',
+        borderWidth: 1,
+        justifyContent: 'center', 
+        marginTop: '13%',  
+        marginHorizontal: '10%',
+    },
+    searchBar:{
+        backgroundColor: 'rgb(120, 202, 78)',
+        height: '20%',
+        borderBottomEndRadius: 10,
+        borderBottomStartRadius: 10,
+    }
 
 });
 
