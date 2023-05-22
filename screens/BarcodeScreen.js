@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
         marginHorizontal: '10%',
     },
     searchBar:{
-        backgroundColor: 'rgb(120, 202, 78)',
+        backgroundColor: 'rgb(84, 156, 48)',
         height: '20%',
         borderBottomEndRadius: 10,
         borderBottomStartRadius: 10,
