@@ -12,6 +12,7 @@ import {
 // import Icon from 'react-native-vector-icons/Entypo' ;
 import Icon from "react-native-vector-icons/Ionicons";
 import LoginScreen from './LoginScreen';
+import axios from 'axios';
 
 import { StyleSheet } from "react-native";
 
@@ -106,6 +107,17 @@ const HomeScreen = ({ route, navigation }) => {
   //     setIcon("heart");
   //   }
   // };
+  const axios = require('axios');
+  axios.get('http://servicodados.ibge.gov.br/api/v3/noticias')
+  .then(response => {
+    // Handle the response data
+    const newsArticles = response.data;
+    console.log(newsArticles);
+  })
+  .catch(error => {
+    // Handle any errors
+    console.error('Error fetching news articles:', error);
+  });
 
   return (
     <View style={styles.container}>

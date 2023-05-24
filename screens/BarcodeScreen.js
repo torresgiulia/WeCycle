@@ -2,7 +2,6 @@
 import React, { useState, useEffect, Fragment, useRef } from 'react';
 import { Text, View, StyleSheet, Button, TextInput } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 const BarcodeScreen = ({navigation}) => {
 
@@ -49,11 +48,7 @@ const BarcodeScreen = ({navigation}) => {
         <View style={styles.container}>
             <Text style={{ margin: 10 }}>Sem acesso a camera garantido, por favor aceder as configurações do dispositivo e garantir acesso da camera a aplicação</Text>
         </View>)
-    }
-
-    
-
-    
+    } 
     
 
     // Permissão concedida  

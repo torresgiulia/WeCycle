@@ -3,15 +3,11 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Icon from "react-native-vector-icons/Ionicons";
 import { StyleSheet } from "react-native";
 
-//Screens
-import HomeScreen from "./screens/HomeScreen";
-import BarcodeScreen from "./screens/BarcodeScreen";
-import LocationScreen from "./screens/LocationScreen";
-import ProfileScreen from "./screens/ProfileScreen";
-
+//Navigators
 import ProductNavigation from "./customNavigation/ProductNavigation";
 import HomePostNavigator from "./customNavigation/HomePostNavigation";
 import ProfileNavigator from "./customNavigation/ProfileNavigation";
+import LocationNavigator from "./customNavigation/LocationNavigation";
 
 //Custom navigation style
 import TabBarButton from "./customNavigation/TabBarButton";
@@ -40,7 +36,7 @@ export default function HomeNavigator({ route }) {
             case "ProductNavigation":
               icon = focused ? "barcode" : "barcode-outline";
               break;
-            case "Location":
+            case "LocationNavigator":
               icon = focused ? "location-sharp" : "location-outline";
               break;
             case "ProfileNavigator":
@@ -71,8 +67,8 @@ export default function HomeNavigator({ route }) {
         options={{ tabBarButton: (props) => <TabBarButton {...props} /> }}
       />
       <Tab.Screen
-        name="Location"
-        component={LocationScreen}
+        name="LocationNavigator"
+        component={LocationNavigator}
         options={{ tabBarButton: (props) => <TabBarButton {...props} /> }}
       />
       <Tab.Screen
