@@ -107,7 +107,7 @@ const HomeScreen = ({ route, navigation }) => {
   //     setIcon("heart");
   //   }
   // };
-  const axios = require('axios');
+  // const axios = require('axios');
   axios.get('http://servicodados.ibge.gov.br/api/v3/noticias')
   .then(response => {
     // Handle the response data
