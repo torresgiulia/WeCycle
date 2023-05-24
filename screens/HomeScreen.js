@@ -11,6 +11,7 @@ import {
 } from "react-native";
 // import Icon from 'react-native-vector-icons/Entypo' ;
 import Icon from "react-native-vector-icons/Ionicons";
+import LoginScreen from './LoginScreen';
 
 import { StyleSheet } from "react-native";
 
@@ -25,6 +26,7 @@ const HomeScreen = ({ route, navigation }) => {
   const [email, setEmail] = useState([]);
   const [users, setUser] = useState([]);
   const [username, setUsername] = useState([]);
+    
 
   //Get user info
   useEffect(() => {
@@ -45,65 +47,65 @@ const HomeScreen = ({ route, navigation }) => {
     setUser(userContainer.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
   };
 
-  const postsRef = collection(db, "posts");
-  const [posts, setPosts] = useState([]);
-  const postsList = [];
-  //Load posts
-  useEffect(() => {
-    getPosts();
-  }, [posts]);
-  const getPosts = async () => {
-    const postContainer = await getDocs(postsRef);
-    setPosts(postContainer.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-  };
+  // const postsRef = collection(db, "posts");
+  // const [posts, setPosts] = useState([]);
+  // const postsList = [];
+  // //Load posts
+  // useEffect(() => {
+  //   getPosts();
+  // }, [posts]);
+  // const getPosts = async () => {
+  //   const postContainer = await getDocs(postsRef);
+  //   setPosts(postContainer.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+  // };
 
-  const [like, setLike] = useState(false);
-  const [icon, setIcon] = useState("heart-outline");
-  //Push Posts
-  if (posts != null) {
-    let i = posts.length;
-    // let icon = "heart-outline";
-    posts.forEach((post) => {
-      postsList.push(
-        <View key={i} style={styles.post}>
-          <View>
-            <Text>{post.username}</Text>
-          </View>
-          <View>
-            <Text>{post.texto}</Text>
-          </View>
-          <View>
-            <Text>{post.link}</Text>
-          </View>
-          <View style={styles.likes}>
-            <TouchableOpacity onPress={() => handleLike()}>
-              <Icon
-                ios={icon}
-                android={"md-add"}
-                name={icon}
-                size={26}
-                color={"rgb(84, 156, 48)"}
-                onPress={() => {}}
-              />
-            </TouchableOpacity>
-            <Text>{post.loves}</Text>
-          </View>
-        </View>
-      );
-      i--;
-    });
-  }
+  // const [like, setLike] = useState(false);
+  // const [icon, setIcon] = useState("heart-outline");
+  // //Push Posts
+  // if (posts != null) {
+  //   let i = posts.length;
+  //   // let icon = "heart-outline";
+  //   posts.forEach((post) => {
+  //     postsList.push(
+  //       <View key={i} style={styles.post}>
+  //         <View>
+  //           <Text>{post.username}</Text>
+  //         </View>
+  //         <View>
+  //           <Text>{post.texto}</Text>
+  //         </View>
+  //         <View>
+  //           <Text>{post.link}</Text>
+  //         </View>
+  //         <View style={styles.likes}>
+  //           <TouchableOpacity onPress={() => handleLike()}>
+  //             <Icon
+  //               ios={icon}
+  //               android={"md-add"}
+  //               name={icon}
+  //               size={26}
+  //               color={"rgb(84, 156, 48)"}
+  //               onPress={() => {}}
+  //             />
+  //           </TouchableOpacity>
+  //           <Text>{post.loves}</Text>
+  //         </View>
+  //       </View>
+  //     );
+  //     i--;
+  //   });
+  // }
 
-  const handleLike = () => {
-    // setLike(!like);
-    if (like == true) {
-      setLike(false);
-      setIcon("heart-outline");
-    } else {
-      setLike(true);
-      setIcon("heart");
-    }
-  };
+  // const handleLike = () => {
+  //   // setLike(!like);
+  //   if (like == true) {
+  //     setLike(false);
+  //     setIcon("heart-outline");
+  //   } else {
+  //     setLike(true);
+  //     setIcon("heart");
+  //   }
+  // };
 
   return (
     <View style={styles.container}>
@@ -122,9 +124,9 @@ const HomeScreen = ({ route, navigation }) => {
           </Text>
         </View>
 
+        {/* {postsList}
         {postsList}
-        {postsList}
-        {postsList}
+        {postsList} */}
       </ScrollView>
 
       <TouchableOpacity

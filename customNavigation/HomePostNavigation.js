@@ -16,7 +16,7 @@ function HomePostNavigator({ route }) {
       <Stack.Screen
         name="New"
         component={NewPostScreen}
-        initialParams={route.params.userEmail}
+        // initialParams={route.params.userEmail}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>
