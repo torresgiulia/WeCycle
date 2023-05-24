@@ -18,66 +18,27 @@ import { useEffect, useState } from "react";
 import { db } from "../firebase";
 import { collection, getDocs } from "firebase/firestore";
 
+// ...
+
 export default function SearchScreen({ navigation }) {
   const [items, setItems] = useState([]);
-  const list = [];
-
-  //Buscar produtos
-  const productRef = collection(db, "products");
   const [products, setProducts] = useState([]);
-  const getProduct = async () => {
-    const productData = await getDocs(productRef);
-    setProducts(productData.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-  };
+
   useEffect(() => {
-    getProduct();
+    const productRef = collection(db, "products");
+    const getProducts = async () => {
+      const productData = await getDocs(productRef);
+      setProducts(productData.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+    };
+    getProducts();
   }, []);
 
-  //Cada tecla
   const handleItems = (text) => {
-    // products.forEach((prod) => {
-    //   let i = products.length;
-    //   if (prod.nome.toLowerCase().includes(text.toLowerCase())) {
-    //     console.log(prod.nome);
-    //     list.splice(
-    //       <View key={i} style={styles.productsContainer}>
-    //         <TouchableOpacity>
-    //           <View style={styles.productBox}>
-    //             <View style={styles.image} />
-    //             <View style={styles.textBoxWrapper}>
-    //               <Text>{prod.nome}</Text>
-    //             </View>
-    //           </View>
-    //         </TouchableOpacity>
-    //       </View>
-    //     );
-    //     i--;
-    //   }
-    // });
+    const filteredItems = products.filter((prod) =>
+      prod.nome.toLowerCase().includes(text.toLowerCase())
+    );
+    setItems(filteredItems);
   };
-
-  //Inicializar produtos
-  if (products != null) {
-    let i = products.length;
-    products.forEach((product) => {
-      list.push(
-        <View key={i} style={styles.productsContainer}>
-          <TouchableOpacity
-            style={styles.productBox}
-            onPress={() =>
-              navigation.navigate("Product", { itemId: product.id })
-            }
-          >
-            <View style={styles.image} />
-            <View style={styles.textBoxWrapper}>
-              <Text>{product.nome}</Text>
-            </View>
-          </TouchableOpacity>
-        </View>
-      );
-      i--;
-    });
-  }
 
   return (
     <View style={styles.container}>
@@ -85,17 +46,31 @@ export default function SearchScreen({ navigation }) {
         <View style={styles.textBoxContainer}>
           <TextInput
             placeholder=" Pesquisar produtos... "
-            onEndEditing={() => {}}
             onChangeText={(text) => {
               handleItems(text);
             }}
-          ></TextInput>
+          />
         </View>
       </View>
-      {list}
+      {items.map((item) => (
+        <View key={item.id} style={styles.productsContainer}>
+          <TouchableOpacity
+            style={styles.productBox}
+            onPress={() => navigation.navigate("Product", { itemId: item.id })}
+          >
+            <View style={styles.image} />
+            <View style={styles.textBoxWrapper}>
+              <Text>{item.nome}</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+      ))}
     </View>
   );
 }
+
+// ...
+
 
 const styles = StyleSheet.create({
   container: {
@@ -124,7 +99,7 @@ const styles = StyleSheet.create({
     marginHorizontal: "10%",
   },
   searchBar: {
-    backgroundColor: "rgb(120, 202, 78)",
+    backgroundColor: "rgb(84, 156, 48)",
     height: "20%",
     borderBottomEndRadius: 10,
     borderBottomStartRadius: 10,
