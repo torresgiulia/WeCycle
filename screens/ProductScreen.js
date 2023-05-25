@@ -3,7 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 //REACT
-import { StyleSheet, View, TouchableOpacity, Text } from "react-native";
+import { StyleSheet, View, TouchableOpacity, Text, Image } from "react-native";
 import { useEffect, useState, Component } from 'react';
 
 //FIREBASE
@@ -86,8 +86,6 @@ export default function ProductScreen({route, navigation}){
                             });
                         }
 
-                        //POR QUE ESTÁ REPETINDO???
-
                     }
                 })
                 
@@ -100,6 +98,7 @@ export default function ProductScreen({route, navigation}){
     return(
         <View style={styles.container}>
             <View>
+                <Image source={{uri: productAttributes.img}} style={styles.img}></Image>
                 <Text>Nome: {productAttributes ? JSON.stringify(productAttributes.nome) : 'A carregar'}</Text>
                 <Text>Instruções de descarte: {productAttributes.instrucoes}</Text>
                 <Text>Link para mais informações: {productAttributes.link}</Text>
@@ -132,7 +131,10 @@ const styles = StyleSheet.create({
         },
         shadowOpacity: 0.25,
         shadowRadius: 2,
-        elevation: 3,
-    
+        elevation: 3,  
+    },
+    img: {
+        width: 100,
+        height: 100,
     }
 })

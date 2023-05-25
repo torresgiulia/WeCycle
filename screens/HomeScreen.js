@@ -112,7 +112,7 @@ const HomeScreen = ({ route, navigation }) => {
   .then(response => {
     // Handle the response data
     const newsArticles = response.data;
-    console.log(newsArticles);
+    // console.log(newsArticles);
   })
   .catch(error => {
     // Handle any errors

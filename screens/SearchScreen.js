@@ -6,6 +6,7 @@ import {
   TextInput,
   Button,
   TouchableOpacity,
+  Image
 } from "react-native";
 import {
   NavigationContainer,
@@ -53,12 +54,15 @@ export default function SearchScreen({ navigation }) {
         </View>
       </View>
       {items.map((item) => (
+        
         <View key={item.id} style={styles.productsContainer}>
           <TouchableOpacity
             style={styles.productBox}
             onPress={() => navigation.navigate("Product", { itemId: item.id })}
           >
-            <View style={styles.image} />
+            <View style={styles.image} >
+              <Image source={{ uri: item.img }} style={styles.prodImage}/>            
+            </View>
             <View style={styles.textBoxWrapper}>
               <Text>{item.nome}</Text>
             </View>
@@ -69,14 +73,11 @@ export default function SearchScreen({ navigation }) {
   );
 }
 
-// ...
 
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // alignItems: 'center',
-    // justifyContent: 'center',
   },
   textBox: {
     width: "80%",
@@ -119,10 +120,15 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   image: {
-    backgroundColor: "rgb(120, 202, 78)",
+    // backgroundColor: "rgb(120, 202, 78)",
     width: 50,
     height: 50,
     padding: 10,
+    justifyContent: 'center'
+  },
+  prodImage:{
+    width: 50,
+    height: 50,
   },
   textBoxWrapper: {
     padding: 10,
