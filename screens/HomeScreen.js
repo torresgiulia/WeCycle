@@ -37,13 +37,15 @@ const HomeScreen = ({ route, navigation }) => {
   }, []);
   //Set username
   useEffect(() => {
+    
     users.forEach((user) => {
       if (user.email == email) {
         setUsername(user.username);
       }
     });
-  }, [users]);
+  }, []);
   const getUser = async () => {
+    console.log("home");
     const userContainer = await getDocs(userRef);
     setUser(userContainer.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
   };

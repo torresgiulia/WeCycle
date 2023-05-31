@@ -43,14 +43,16 @@ const LocationScreen = () => {
         })
     }, [])
 
-    useEffect(() => {
-      const ecopontoRef = collection(db, "ecopontos");
-      const getEcopontos = async () => {
-        const ecoData = await getDocs(ecopontoRef);
-        setMarkers(ecoData.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-      };
+    useEffect(() => {            
       getEcopontos();
     }, []);
+
+    const getEcopontos = async () => {
+      console.log("location");
+      const ecopontoRef = collection(db, "ecopontos");
+      const ecoData = await getDocs(ecopontoRef);
+      setMarkers(ecoData.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+    };
   
     return (
       <View style={styles.container}>

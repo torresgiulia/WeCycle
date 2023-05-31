@@ -22,14 +22,14 @@ export default function NewPostScreen({ route, navigation }) {
   const [users, setUser] = useState([]);
   const [username, setUsername] = useState([]);
   //Set username
-  useEffect(() => {
-    getUser();
-    users.forEach((user) => {
-      if (user.email == userEmail) {
-        setUsername(user.username);
-      }
-    });
-  }, [users]);
+  // useEffect(() => {
+  //   getUser();
+  //   users.forEach((user) => {
+  //     if (user.email == userEmail) {
+  //       setUsername(user.username);
+  //     }
+  //   });
+  // }, [users]);
   const getUser = async () => {
     const userContainer = await getDocs(userRef);
     setUser(userContainer.docs.map((doc) => ({ ...doc.data(), id: doc.id })));

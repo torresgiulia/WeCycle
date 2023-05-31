@@ -25,14 +25,16 @@ export default function SearchScreen({ navigation }) {
   const [items, setItems] = useState([]);
   const [products, setProducts] = useState([]);
 
-  useEffect(() => {
-    const productRef = collection(db, "products");
-    const getProducts = async () => {
-      const productData = await getDocs(productRef);
-      setProducts(productData.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-    };
+  useEffect(() => {       
     getProducts();
   }, []);
+
+  const getProducts = async () => {
+    console.log("search");
+    const productRef = collection(db, "products");
+    const productData = await getDocs(productRef);
+    setProducts(productData.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+  };
 
   const handleItems = (text) => {
     const filteredItems = products.filter((prod) =>

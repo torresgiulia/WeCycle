@@ -1,5 +1,5 @@
 //REACT
-import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
+import { Text, View, StyleSheet, TouchableOpacity, Image } from "react-native";
 import { useEffect, useState } from "react";
 import { NavigationContainer, TabActions } from "@react-navigation/native";
 
@@ -22,21 +22,49 @@ export default function ProfileScreen({ route, navigation }) {
   const usersRef = collection(db, "users");
   const [users, setUser] = useState([]);
   const [username, setUsername] = useState([]);
+  const [picRef, setPicRef] = useState([]);
+
+  const profilePicRef = collection(db, "profilePics");
+  const [pics, setPics] = useState([]);
+  const [src, setSrc] = useState([]);
+
   //Set username
   useEffect(() => {
     getUser();
+    
+  }, []);
+  useEffect(() => {
     users.forEach((user) => {
       if (user.email == email) {
         setUsername(user.username);
         setNome(user.nome);
         setId(user.id);
+        setPicRef(user.img);
       }
     });
-  }, [users]);
+  }, []);
   const getUser = async () => {
+    console.log("profile");
     const userContainer = await getDocs(usersRef);
     setUser(userContainer.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
   };
+
+  // //Set ProfilePics
+  // useEffect(()=> {
+  //   getPics();
+  //   pics.forEach((pictures) => {
+  //     if(pictures.id == picRef){
+  //       console.log(pictures.id);
+  //       setSrc(pictures.src);
+  //     }
+  //   });
+  // }, [users, pics]);
+  // const getPics = async () => {
+  //   const picsContainer = await getDocs(profilePicRef);
+  //   setPics(picsContainer.docs.map((doc) => ({...doc.data(), id: doc.id})));
+  // }
+
+
 
   const handleEmailUpdate = async () => {
     try {
@@ -52,7 +80,10 @@ export default function ProfileScreen({ route, navigation }) {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={styles.container} styles={styles.img}>
+      <View>
+        {/* <Image source={{ uri: src }} /> */}
+      </View>
       <View>
         <Text>Olá, {username}</Text>
       </View>
@@ -75,4 +106,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  img:{
+    width: 70,
+    height:70
+  }
 });
