@@ -8,6 +8,7 @@ import {
   Touchable,
   TouchableOpacity,
   ScrollView,
+  Image
 } from "react-native";
 // import Icon from 'react-native-vector-icons/Entypo' ;
 import Icon from "react-native-vector-icons/Ionicons";
@@ -22,110 +23,63 @@ import { collection, getDocs } from "firebase/firestore";
 import { async } from "@firebase/util";
 
 const HomeScreen = ({ route, navigation }) => {
-  //user db ref
   const userRef = collection(db, "users");
   const [email, setEmail] = useState([]);
   const [users, setUser] = useState([]);
   const [username, setUsername] = useState([]);
-    
+  const [news, setNews] = useState([]);
+  // const newsList = [];
+  const [newsList, setNewsList] = useState([]);
 
-  //Get user info
+  const getUser = async () => {
+    console.log("home");
+    const userContainer = await getDocs(userRef);
+    setUser(userContainer.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+
+    userContainer.docs.forEach((doc) => {
+      const user = { ...doc.data(), id: doc.id };
+      if (user.email === email) {
+        setUsername(user.username);
+      }
+    });
+  };
+
   useEffect(() => {
     console.log(route.params.userEmail);
     setEmail(route.params.userEmail);
     getUser();
   }, []);
-  //Set username
+
   useEffect(() => {
-    
-    users.forEach((user) => {
-      if (user.email == email) {
-        setUsername(user.username);
-      }
-    });
+    getAPI();
   }, []);
-  const getUser = async () => {
-    console.log("home");
-    const userContainer = await getDocs(userRef);
-    setUser(userContainer.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-  };
 
-  // const postsRef = collection(db, "posts");
-  // const [posts, setPosts] = useState([]);
-  // const postsList = [];
-  // //Load posts
-  // useEffect(() => {
-  //   getPosts();
-  // }, [posts]);
-  // const getPosts = async () => {
-  //   const postContainer = await getDocs(postsRef);
-  //   setPosts(postContainer.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-  // };
+  const getAPI = async () => {
+    try {
+      const response = await axios.get(
+        "http://servicodados.ibge.gov.br/api/v3/noticias/?qtd=3"
+      );
+      const newsArticles = response.data;
+      setNews(newsArticles);
 
-  // const [like, setLike] = useState(false);
-  // const [icon, setIcon] = useState("heart-outline");
-  // //Push Posts
-  // if (posts != null) {
-  //   let i = posts.length;
-  //   // let icon = "heart-outline";
-  //   posts.forEach((post) => {
-  //     postsList.push(
-  //       <View key={i} style={styles.post}>
-  //         <View>
-  //           <Text>{post.username}</Text>
-  //         </View>
-  //         <View>
-  //           <Text>{post.texto}</Text>
-  //         </View>
-  //         <View>
-  //           <Text>{post.link}</Text>
-  //         </View>
-  //         <View style={styles.likes}>
-  //           <TouchableOpacity onPress={() => handleLike()}>
-  //             <Icon
-  //               ios={icon}
-  //               android={"md-add"}
-  //               name={icon}
-  //               size={26}
-  //               color={"rgb(84, 156, 48)"}
-  //               onPress={() => {}}
-  //             />
-  //           </TouchableOpacity>
-  //           <Text>{post.loves}</Text>
-  //         </View>
-  //       </View>
-  //     );
-  //     i--;
-  //   });
-  // }
-
-  // const handleLike = () => {
-  //   // setLike(!like);
-  //   if (like == true) {
-  //     setLike(false);
-  //     setIcon("heart-outline");
-  //   } else {
-  //     setLike(true);
-  //     setIcon("heart");
-  //   }
-  // };
-  // const axios = require('axios');
-  axios.get('http://servicodados.ibge.gov.br/api/v3/noticias')
-  .then(response => {
-    // Handle the response data
-    const newsArticles = response.data;
-    // console.log(newsArticles);
-  })
-  .catch(error => {
-    // Handle any errors
-    console.error('Error fetching news articles:', error);
-  });
-
+      
+      // Create the newsList here
+      const updatedNewsList = newsArticles.items.map((article, index) => (
+        <View key={index}>
+          <Image source={{uri: article.imagens}} style={{height:200, width:200}}></Image>
+          <Text>{article.titulo}</Text>
+        </View>
+      ));
+      setNewsList(updatedNewsList);
+      console.log(newsArticles);
+    } catch (error) {
+      console.error("Error fetching news articles:", error);
+    }
+  }  
   return (
     <View style={styles.container}>
       <ScrollView>
         <View style={styles.wrapper}>
-          {/* <Icon name = "dots-two-vertical" size={22} color="rgb(255, 255, 255)" style={{marginRight:-7, marginTop:7}}></Icon> */}
           <Text
             style={{
               fontFamily: "Bold",
@@ -137,21 +91,13 @@ const HomeScreen = ({ route, navigation }) => {
             Veja o que estão todos a dizer...
           </Text>
         </View>
-
-        {/* {postsList}
-        {postsList}
-        {postsList} */}
+        {newsList.length > 0 ? newsList : null}
       </ScrollView>
-
-      <TouchableOpacity
-        style={styles.newPost}
-        onPress={() => navigation.navigate("New", { userEmail: email })}
-      >
-        <Text style={styles.newFont}>+</Text>
-      </TouchableOpacity>
     </View>
   );
 };
+
+
 
 export default HomeScreen;
 const styles = StyleSheet.create({

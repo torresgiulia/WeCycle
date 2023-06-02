@@ -31,16 +31,16 @@ const LocationScreen = () => {
     }, []);
     //watch movement
     useEffect(()=>{
-        watchPositionAsync({
-            accuracy: LocationAccuracy.Highest,
-            timeInterval: 1000,
-            distanceInterval: 1
-        }, (response) => {
-            setCurrentPosition(response);
-            mapRef.current?.animateCamera({
-                center: response.coords
-            })
-        })
+        // watchPositionAsync({
+        //     accuracy: LocationAccuracy.Highest,
+        //     timeInterval: 1000,
+        //     distanceInterval: 1
+        // }, (response) => {
+        //     setCurrentPosition(response);
+        //     mapRef.current?.animateCamera({
+        //         center: response.coords
+        //     })
+        // })
     }, [])
 
     useEffect(() => {            

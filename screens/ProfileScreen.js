@@ -29,25 +29,25 @@ export default function ProfileScreen({ route, navigation }) {
   const [src, setSrc] = useState([]);
 
   //Set username
-  useEffect(() => {
-    getUser();
+  // useEffect(() => {
+  //   getUser();
     
-  }, []);
-  useEffect(() => {
-    users.forEach((user) => {
-      if (user.email == email) {
-        setUsername(user.username);
-        setNome(user.nome);
-        setId(user.id);
-        setPicRef(user.img);
-      }
-    });
-  }, []);
-  const getUser = async () => {
-    console.log("profile");
-    const userContainer = await getDocs(usersRef);
-    setUser(userContainer.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-  };
+  // }, []);
+  // useEffect(() => {
+  //   users.forEach((user) => {
+  //     if (user.email == email) {
+  //       setUsername(user.username);
+  //       setNome(user.nome);
+  //       setId(user.id);
+  //       setPicRef(user.img);
+  //     }
+  //   });
+  // }, [users]);
+  // const getUser = async () => {
+  //   console.log("profile");
+  //   const userContainer = await getDocs(usersRef);
+  //   setUser(userContainer.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+  // };
 
   // //Set ProfilePics
   // useEffect(()=> {
