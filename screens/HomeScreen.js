@@ -1,5 +1,5 @@
 //REACT
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import {
   Text,
   View,
@@ -8,7 +8,8 @@ import {
   Touchable,
   TouchableOpacity,
   ScrollView,
-  Image
+  Image,
+  Linking
 } from "react-native";
 // import Icon from 'react-native-vector-icons/Entypo' ;
 import Icon from "react-native-vector-icons/Ionicons";
@@ -28,8 +29,8 @@ const HomeScreen = ({ route, navigation }) => {
   const [users, setUser] = useState([]);
   const [username, setUsername] = useState([]);
   const [news, setNews] = useState([]);
-  // const newsList = [];
   const [newsList, setNewsList] = useState([]);
+  const [link, setLink] = useState([]);
 
   const getUser = async () => {
     console.log("home");
@@ -54,6 +55,8 @@ const HomeScreen = ({ route, navigation }) => {
     getAPI();
   }, []);
 
+
+  //get API and load to the page
   const getAPI = async () => {
     try {
       const response = await axios.get(
@@ -62,23 +65,39 @@ const HomeScreen = ({ route, navigation }) => {
       const newsArticles = response.data;
       setNews(newsArticles);
 
-      
-      // Create the newsList here
-      const updatedNewsList = newsArticles.items.map((article, index) => (
-        <View key={index}>
-          <Image source={{uri: article.imagens}} style={{height:200, width:200}}></Image>
-          <Text>{article.titulo}</Text>
-        </View>
-      ));
+      const baseUrl = "http://agenciadenoticias.ibge.gov.br";
+      const updatedNewsList = newsArticles.items.map((article, index) => {
+        const images = JSON.parse(article.imagens);
+        const imageUrl = `${baseUrl}/${images.image_intro}`;
+        // setLink(article.link);
+        return (
+          <TouchableOpacity key={index} onPress={() => handleLink(article.link)}>
+            <View>
+              <Image
+                source={{ uri: imageUrl }}
+                style={{ height: 200, width: 200 }}
+              />
+              <Text>{article.titulo}</Text>
+            </View>
+          </TouchableOpacity>
+        );
+      });
+
       setNewsList(updatedNewsList);
-      console.log(newsArticles);
     } catch (error) {
       console.error("Error fetching news articles:", error);
     }
-  }  
+  }
+  
+  const handleLink = async (url) => {
+    await Linking.openURL(url);
+  }
+
+
+
   return (
-    <View style={styles.container}>
-      <ScrollView>
+    <ScrollView>
+      <View style={styles.container}>  
         <View style={styles.wrapper}>
           <Text
             style={{
@@ -91,9 +110,9 @@ const HomeScreen = ({ route, navigation }) => {
             Veja o que estão todos a dizer...
           </Text>
         </View>
-        {newsList.length > 0 ? newsList : null}
-      </ScrollView>
-    </View>
+        {newsList.length > 0 ? newsList : null}     
+      </View>
+    </ScrollView>
   );
 };
 
