@@ -4,65 +4,48 @@ import { useEffect, useState } from "react";
 import { NavigationContainer, TabActions } from "@react-navigation/native";
 
 //FIREBASE
-import { db } from "../firebase";
+import { db, auth } from "../firebase";
 import {
   collection,
   getDocs,
   addDoc,
   doc,
   updateDoc,
+  deleteDoc,
+  
 } from "firebase/firestore";
 
 export default function ProfileScreen({ route, navigation }) {
   const email = route.params.userEmail;
 
   const [nome, setNome] = useState([]);
+  const [username, setUsername] = useState([]);
   const [id, setId] = useState([]);
 
   const usersRef = collection(db, "users");
   const [users, setUser] = useState([]);
-  const [username, setUsername] = useState([]);
   const [picRef, setPicRef] = useState([]);
 
   const profilePicRef = collection(db, "profilePics");
   const [pics, setPics] = useState([]);
   const [src, setSrc] = useState([]);
 
-  //Set username
-  // useEffect(() => {
-  //   getUser();
-    
-  // }, []);
-  // useEffect(() => {
-  //   users.forEach((user) => {
-  //     if (user.email == email) {
-  //       setUsername(user.username);
-  //       setNome(user.nome);
-  //       setId(user.id);
-  //       setPicRef(user.img);
-  //     }
-  //   });
-  // }, [users]);
-  // const getUser = async () => {
-  //   console.log("profile");
-  //   const userContainer = await getDocs(usersRef);
-  //   setUser(userContainer.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-  // };
-
-  // //Set ProfilePics
-  // useEffect(()=> {
-  //   getPics();
-  //   pics.forEach((pictures) => {
-  //     if(pictures.id == picRef){
-  //       console.log(pictures.id);
-  //       setSrc(pictures.src);
-  //     }
-  //   });
-  // }, [users, pics]);
-  // const getPics = async () => {
-  //   const picsContainer = await getDocs(profilePicRef);
-  //   setPics(picsContainer.docs.map((doc) => ({...doc.data(), id: doc.id})));
-  // }
+  //Load user Info
+  const getUser = async () => {
+    const userContainer = await getDocs(usersRef);
+    setUser(userContainer.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+    userContainer.docs.forEach((doc) => {
+      const user = { ...doc.data(), id: doc.id };
+      if (user.email === email) {
+        setNome(user.nome);
+        setUsername(user.username);
+        setId(doc.id);
+      }
+    });
+  };
+  useEffect(() => {
+    getUser();
+  },[]);
 
 
 
@@ -79,6 +62,28 @@ export default function ProfileScreen({ route, navigation }) {
     }
   };
 
+  const handleDelete = async () => {
+    try {
+      await deleteDoc(doc(db, "users", id));
+      
+      const user = auth.currentUser;
+      if (user) {
+        user
+          .delete()
+          .then(() => {
+            console.log('User deleted successfully');
+            navigation.navigate('Login');
+          })
+          .catch((error) => console.log(error.message));
+      } else {
+        console.log('No user is currently signed in');
+      }
+    }
+    catch (error) {
+      console.log("Error deleting account", error.message);
+    }
+  }
+
   return (
     <View style={styles.container} styles={styles.img}>
       <View>
@@ -93,8 +98,11 @@ export default function ProfileScreen({ route, navigation }) {
       <View>
         <Text>Nome: {nome}</Text>
       </View>
-      <TouchableOpacity onPress={() => handleEmailUpdate()}>
+      <TouchableOpacity >
         <Text>Editar</Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => handleDelete()}>
+        <Text>Apagar conta</Text>
       </TouchableOpacity>
     </View>
   );

@@ -15,6 +15,9 @@ import {
 } from "@react-navigation/native";
 import { useEffect, useState } from "react";
 
+import Icon from "react-native-vector-icons/Ionicons";
+
+
 //FIREBASE
 import { db } from "../firebase";
 import { collection, getDocs } from "firebase/firestore";
@@ -47,11 +50,12 @@ export default function SearchScreen({ navigation }) {
       <View style={styles.searchBar}>
         <View style={styles.textBoxContainer}>
           <TextInput
-            placeholder=" Pesquisar produtos... "
+            placeholder="  Pesquisar produtos... "
             onChangeText={(text) => {
               handleItems(text);
             }}
-          />
+            placeholderTextColor="rgb(38, 38, 38)"
+          />          
         </View>
       </View>
       {items.map((item) => (
@@ -89,23 +93,24 @@ const styles = StyleSheet.create({
     marginTop: "10%",
     marginHorizontal: "10%",
   },
-  textBoxContainer: {
-    width: "80%",
-    height: 60,
-    backgroundColor: "rgb(245, 253, 242)",
-    borderRadius: 5,
-    borderColor: "rgb(52, 99, 28)",
-    borderWidth: 1,
-    justifyContent: "center",
-    marginTop: "13%",
-    marginHorizontal: "10%",
-  },
-  searchBar: {
-    backgroundColor: "rgb(84, 156, 48)",
-    height: "20%",
+  textBoxContainer:{
+    width: '80%',
+    height: '40%',
+    backgroundColor: 'rgb(230, 230, 230)',
+    borderRadius: 15,
+    borderColor: 'rgb(84, 156, 48)',
+    borderWidth: 0.5,
+    justifyContent: 'center', 
+    marginHorizontal: '10%',
+},
+searchBar:{
+    marginTop: '5%',
+    height: '20%',
     borderBottomEndRadius: 10,
     borderBottomStartRadius: 10,
-  },
+    justifyContent: 'center',
+    alignContent: 'center',
+},
   productsContainer: {
     alignItems: "center",
     marginTop: 10,
@@ -113,7 +118,7 @@ const styles = StyleSheet.create({
   productBox: {
     width: "80%",
     height: 70,
-    backgroundColor: "rgb(230, 255, 230)",
+    backgroundColor: "rgb(230, 230, 230)",
     justifyContent: "left",
     padding: 10,
     alignItems: "center",
@@ -121,11 +126,13 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   image: {
-    // backgroundColor: "rgb(120, 202, 78)",
-    width: 50,
-    height: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '20%',
+    height: '120%',
     padding: 10,
-    justifyContent: 'center'
+    backgroundColor: 'white',
+    borderRadius: 13,
   },
   prodImage:{
     width: 50,

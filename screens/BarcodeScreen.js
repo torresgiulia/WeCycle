@@ -1,6 +1,6 @@
 //REACT
 import React, { useState, useEffect, Fragment, useRef } from 'react';
-import { Text, View, StyleSheet, Button, TextInput } from 'react-native';
+import { Text, View, StyleSheet, Button, TextInput, Image } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 
 const BarcodeScreen = ({navigation}) => {
@@ -55,8 +55,12 @@ const BarcodeScreen = ({navigation}) => {
     return (
         <View style={styles.page}>
             <View style={styles.searchBar}>
+                <View style={styles.logoContainer}>
+                    <Image source={require('../assets/logo_correto.png')} style={styles.logo}></Image>
+                </View>
+                
                 <View style={styles.textBoxContainer}>         
-                    <TextInput placeholder=' Pesquisar produtos...' ref={input} onFocus={() => handleInputText()}></TextInput>                                  
+                    <TextInput placeholderTextColor="rgb(38, 38, 38)"  placeholder='  Pesquisar produtos...' ref={input} onFocus={() => handleInputText()}></TextInput>                                  
                 </View>
             </View>
 
@@ -100,21 +104,34 @@ const styles = StyleSheet.create({
     },
     textBoxContainer:{
         width: '80%',
-        height: 60,
-        backgroundColor: 'rgb(245, 253, 242)',
-        borderRadius: 5,
-        borderColor: 'rgb(52, 99, 28)',
-        borderWidth: 1,
+        height: '40%',
+        backgroundColor: 'rgb(230, 230, 230)',
+        borderRadius: 15,
+        borderColor: 'rgb(84, 156, 48)',
+        borderWidth: 0.5,
         justifyContent: 'center', 
-        marginTop: '13%',  
         marginHorizontal: '10%',
     },
     searchBar:{
-        backgroundColor: 'rgb(84, 156, 48)',
+        marginTop: '13%',
         height: '20%',
         borderBottomEndRadius: 10,
         borderBottomStartRadius: 10,
-    }
+        justifyContent: 'center',
+        alignContent: 'center',
+    },
+    logoContainer: {
+        width: '40%',
+        height: '50%', 
+        alignSelf: 'center',
+                    
+    },
+    logo:{
+        padding: 1,
+        width: '100%',
+        height: '100%',
+        
+    },
 
 });
 

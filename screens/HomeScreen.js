@@ -30,7 +30,6 @@ const HomeScreen = ({ route, navigation }) => {
   const [username, setUsername] = useState([]);
   const [news, setNews] = useState([]);
   const [newsList, setNewsList] = useState([]);
-  const [link, setLink] = useState([]);
 
   const getUser = async () => {
     console.log("home");
@@ -60,7 +59,7 @@ const HomeScreen = ({ route, navigation }) => {
   const getAPI = async () => {
     try {
       const response = await axios.get(
-        "http://servicodados.ibge.gov.br/api/v3/noticias/?qtd=3"
+        "http://servicodados.ibge.gov.br/api/v3/noticias/?qtd=10"
       );
       const newsArticles = response.data;
       setNews(newsArticles);
@@ -72,12 +71,12 @@ const HomeScreen = ({ route, navigation }) => {
         // setLink(article.link);
         return (
           <TouchableOpacity key={index} onPress={() => handleLink(article.link)}>
-            <View>
+            <View style={styles.imageContainer}>
+            <Text style={styles.text}>{article.titulo}</Text>
               <Image
                 source={{ uri: imageUrl }}
-                style={{ height: 200, width: 200 }}
-              />
-              <Text>{article.titulo}</Text>
+                style={styles.image}
+              />            
             </View>
           </TouchableOpacity>
         );
@@ -96,7 +95,7 @@ const HomeScreen = ({ route, navigation }) => {
 
 
   return (
-    <ScrollView>
+    <ScrollView style={styles.scroll}>
       <View style={styles.container}>  
         <View style={styles.wrapper}>
           <Text
@@ -120,6 +119,9 @@ const HomeScreen = ({ route, navigation }) => {
 
 export default HomeScreen;
 const styles = StyleSheet.create({
+  scroll:{
+    marginBottom: '26%',
+  },
   container: {
     height: "100%",
     position: "relative",
@@ -164,4 +166,17 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontWeight: "bold",
   },
+  image: {
+    height: 200, 
+    width: 350,
+    borderRadius: 10,
+  },
+  imageContainer: {
+    alignItems: "center",
+    marginTop: 10,
+    paddingHorizontal: 30,
+  },
+  text:{
+    fontSize: 20
+  }
 });
