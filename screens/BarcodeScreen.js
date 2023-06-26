@@ -111,6 +111,7 @@ const styles = StyleSheet.create({
         borderWidth: 0.5,
         justifyContent: 'center', 
         marginHorizontal: '10%',
+        marginTop: '7%'
     },
     searchBar:{
         marginTop: '13%',

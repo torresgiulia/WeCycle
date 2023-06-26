@@ -1,7 +1,6 @@
 //REACT
-import { Text, View, StyleSheet, TouchableOpacity, Image } from "react-native";
+import { Text, View, StyleSheet, TouchableOpacity, Image, TextInput, Button } from "react-native";
 import { useEffect, useState } from "react";
-import { NavigationContainer, TabActions } from "@react-navigation/native";
 
 //FIREBASE
 import { db, auth } from "../firebase";
@@ -11,20 +10,26 @@ import {
   addDoc,
   doc,
   updateDoc,
-  deleteDoc,
-  
+  deleteDoc,  
 } from "firebase/firestore";
+
+import { updateEmail } from "firebase/auth";
 
 export default function ProfileScreen({ route, navigation }) {
   const email = route.params.userEmail;
 
-  const [nome, setNome] = useState([]);
-  const [username, setUsername] = useState([]);
-  const [id, setId] = useState([]);
+  const [nome, setNome] = useState('');
+  const [username, setUsername] = useState('');
+  const [id, setId] = useState('');
 
   const usersRef = collection(db, "users");
   const [users, setUser] = useState([]);
   const [picRef, setPicRef] = useState([]);
+
+  const [updatedUsername, setUpdatedUsername] = useState('');
+  const [updatedNome, setUpdatedNome] = useState('');
+  const [updatedEmail, setUpdatedEmail] = useState('');
+
 
   const profilePicRef = collection(db, "profilePics");
   const [pics, setPics] = useState([]);
@@ -45,23 +50,47 @@ export default function ProfileScreen({ route, navigation }) {
   };
   useEffect(() => {
     getUser();
-  },[]);
+  },[email]);
+  useEffect(() => {
+    setUpdatedUsername(username);
+    setUpdatedNome(nome);
+    setUpdatedEmail(email);
+  }, [username, nome, email]);
 
 
+  //Updating TextInput
+  const handleUsernameUpdate = (newUsername) => {
+    setUpdatedUsername(newUsername);
+  };
+  const handleNameUpdate = (newName) => {
+    setUpdatedNome(newName);
+  };
+  const handleEmailUpdate = (newEmail) => {
+    setUpdatedEmail(newEmail);
+  } 
 
-  const handleEmailUpdate = async () => {
+  //Save changes
+  const handleSaveUsername = async () => {
     try {
-      const userRef = doc(db, "users", id);
-      await updateDoc(userRef, {
-        nome: "teeeeeeeees",
-      });
+      const updatedUser = {
+        username: updatedUsername,
+        nome: updatedNome,
+        email: updatedEmail
+      };
 
-      console.log("Document updated successfully");
-    } catch (error) {
-      console.error("Error updating document: ", error);
+      await Promise.all([
+        updateEmail(auth.currentUser, updatedEmail),
+        updateDoc(doc(usersRef, id), updatedUser)
+      ]);
+
+      console.log("Update successful");
+    } 
+    catch (error) {
+      console.error('Error updating username:', error);
     }
   };
 
+  //Delete user account
   const handleDelete = async () => {
     try {
       await deleteDoc(doc(db, "users", id));
@@ -85,25 +114,35 @@ export default function ProfileScreen({ route, navigation }) {
   }
 
   return (
-    <View style={styles.container} styles={styles.img}>
-      <View>
-        {/* <Image source={{ uri: src }} /> */}
+    <View style={styles.container}>
+      <View style={styles.imgContainer}>
+        <Image
+        style={styles.img}
+        source={{uri: 'https://firebasestorage.googleapis.com/v0/b/wecycle-db.appspot.com/o/ProfilePics%2Fprofile1.png?alt=media&token=ab6b5c86-bbf4-43d9-bda9-1b262e8219a2'}}
+        />
       </View>
-      <View>
-        <Text>Olá, {username}</Text>
+      <View style={styles.inputContainer}>
+        <Text>Olá, </Text>
+        <TextInput style={styles.inputBox} value={updatedUsername} onChangeText={handleUsernameUpdate} />        
       </View>
-      <View>
-        <Text>Email: {email}</Text>
+      <View style={styles.inputContainer}>
+        <Text>Email: </Text>
+        <TextInput style={styles.inputBox}  value={updatedEmail} onChangeText={handleEmailUpdate}/>
       </View>
-      <View>
-        <Text>Nome: {nome}</Text>
+      <View style={styles.inputContainer}>
+        <Text>Nome: </Text>
+        <TextInput style={styles.inputBox} value={updatedNome} onChangeText={handleNameUpdate} />
       </View>
-      <TouchableOpacity >
-        <Text>Editar</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => handleDelete()}>
-        <Text>Apagar conta</Text>
-      </TouchableOpacity>
+      <View style={styles.inputContainer}>
+        <Button onPress={handleSaveUsername} title="Save" />
+        <TouchableOpacity onPress={() => handleDelete()}>
+          <Text>Apagar conta </Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+          <Text>Log Out</Text>
+        </TouchableOpacity>
+      </View>
+      
     </View>
   );
 }
@@ -111,11 +150,24 @@ export default function ProfileScreen({ route, navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    flexDirection: 'column',
     alignItems: "center",
     justifyContent: "center",
   },
+  imgContainer:{
+    backgroundColor: 'blue'
+  },
   img:{
-    width: 70,
-    height:70
+    backgroundColor: 'red',
+    width: '100%'
+  },
+  inputContainer:{
+    flexDirection: 'row'
+  },
+  inputBox:{
+    borderBottomWidth: 1,
+    borderColor: 'rgb(88, 150, 54)',
+    backgroundColor: 'rgb(226, 241, 218)',
+    padding: 0
   }
 });

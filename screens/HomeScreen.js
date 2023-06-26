@@ -106,7 +106,7 @@ const HomeScreen = ({ route, navigation }) => {
               paddingVertical: 25,
             }}
           >
-            Veja o que estão todos a dizer...
+            Notícias do momento...
           </Text>
         </View>
         {newsList.length > 0 ? newsList : null}     

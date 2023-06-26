@@ -103,13 +103,36 @@ export default function ProductScreen({route, navigation}){
         <View style={styles.container}>
             <View>
                 <Image source={{uri: productAttributes.img}} style={styles.img}></Image>
-                <Text>Nome: {productAttributes ? JSON.stringify(productAttributes.nome) : 'A carregar'}</Text>
-                <Text>Instruções de descarte: {productAttributes.instrucoes}</Text>
-                <Text>Link para mais informações: {productAttributes.link}</Text>
-                <Text>Fabricante: {productAttributes.fabricante}</Text>
-                <Text>Material: {productMaterial}</Text>
-                <Text>Parte: {productPart}</Text>
-                <Text>Lixo: {productContainer}</Text>
+                <View style={styles.textContainer}>
+                    <View style={styles.textWraper}>
+                        <Text style={styles.headText}>Nome</Text> 
+                        <Text style={styles.infoText}>{productAttributes ? JSON.stringify(productAttributes.nome) : 'A carregar'}</Text>
+                    </View>
+                    <View style={styles.textWraper}>
+                        <Text style={styles.headText}>Instruções de descarte</Text> 
+                        <Text style={styles.infoText}>{productAttributes.instrucoes}</Text>
+                    </View>
+                    <View style={styles.textWraper}>
+                        <Text style={styles.headText}>Link para mais informações</Text> 
+                        <Text style={styles.infoText}>{productAttributes.link}</Text>
+                    </View>
+                    <View style={styles.textWraper}>
+                        <Text style={styles.headText}>Fabricante</Text> 
+                        <Text style={styles.infoText}>{productAttributes.fabricante}</Text>
+                    </View>
+                    <View style={styles.textWraper}>
+                        <Text style={styles.headText}>Material</Text> 
+                        <Text style={styles.infoText}>{productMaterial}</Text>
+                    </View>
+                    <View style={styles.textWraper}>
+                        <Text style={styles.headText}>Parte</Text> 
+                        <Text style={styles.infoText}>{productPart}</Text>
+                    </View>
+                    <View style={styles.textWraper}>
+                        <Text style={styles.headText}>Lixo</Text> 
+                        <Text style={styles.infoText}>{productContainer}</Text>
+                    </View>
+                </View>              
             </View>
             <TouchableOpacity>
                 <Text onPress={() => navigation.navigate('Barcode')}>Voltar</Text>
@@ -138,7 +161,24 @@ const styles = StyleSheet.create({
         elevation: 3,  
     },
     img: {
+        marginVertical: '5%',
         width: 100,
         height: 100,
+        alignSelf: 'center'
+    },
+    textContainer: {
+        padding: '5%',
+    },
+    headText:{
+        // color: 'green',
+        fontWeight: 'bold',
+        fontSize: 16,
+    },
+    infoText:{
+        // position: 'relative',
+        // right: 0
+    },
+    textWraper:{
+        // flexDirection: 'row'
     }
 })
