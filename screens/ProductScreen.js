@@ -3,7 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 //REACT
-import { StyleSheet, View, TouchableOpacity, Text, Image } from "react-native";
+import { StyleSheet, View, TouchableOpacity, Text, Image, Linking } from "react-native";
 import { useEffect, useState, Component } from 'react';
 
 //FIREBASE
@@ -98,6 +98,9 @@ export default function ProductScreen({route, navigation}){
     }, [products, materialComposition, materialContainer]);
     
 
+    const handleLink = async (url) => {
+        await Linking.openURL(url);
+      }
 
     return(
         <View style={styles.container}>
@@ -112,10 +115,10 @@ export default function ProductScreen({route, navigation}){
                         <Text style={styles.headText}>Instruções de descarte</Text> 
                         <Text style={styles.infoText}>{productAttributes.instrucoes}</Text>
                     </View>
-                    <View style={styles.textWraper}>
+                    <TouchableOpacity style={styles.textWraper} onPress={() => handleLink(productAttributes.link)}>
                         <Text style={styles.headText}>Link para mais informações</Text> 
-                        <Text style={styles.infoText}>{productAttributes.link}</Text>
-                    </View>
+                        <Text style={styles.infoTextLink}>{productAttributes.link ? JSON.stringify(productAttributes.link) : 'link não disponível'}</Text>
+                    </TouchableOpacity>
                     <View style={styles.textWraper}>
                         <Text style={styles.headText}>Fabricante</Text> 
                         <Text style={styles.infoText}>{productAttributes.fabricante}</Text>
@@ -134,9 +137,12 @@ export default function ProductScreen({route, navigation}){
                     </View>
                 </View>              
             </View>
-            <TouchableOpacity>
-                <Text onPress={() => navigation.navigate('Barcode')}>Voltar</Text>
-            </TouchableOpacity>
+            <View style={styles.btnContainer}>
+                <TouchableOpacity style={styles.btnVoltar}>
+                    <Text style={styles.btnVoltarText} onPress={() => navigation.navigate('Barcode')}>Voltar</Text>
+                </TouchableOpacity>
+            </View>
+            
         </View>
     );
 }
@@ -175,10 +181,38 @@ const styles = StyleSheet.create({
         fontSize: 16,
     },
     infoText:{
-        // position: 'relative',
-        // right: 0
+        marginBottom: '1%'
+    },
+    infoTextLink:{
+        marginBottom: '1%',
+        color: 'blue'
     },
     textWraper:{
         // flexDirection: 'row'
-    }
+    },
+    btnVoltar:{
+        textAlign: 'center',
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '100%',
+        height: 15,
+    },
+    btnVoltarText:{
+        fontSize: 12,
+        color: "#fff",
+        fontWeight: "bold",
+        alignSelf: "center",
+        textTransform: "uppercase"
+    },
+    btnContainer:{
+        margin: 10,
+        backgroundColor: "rgb(99, 169, 61)",
+        borderRadius: 10,
+        paddingVertical: 10,
+        paddingHorizontal: 10,
+        width: '20%',
+        position: 'absolute',
+        right: 0,
+        bottom: 0,
+    },
 })
