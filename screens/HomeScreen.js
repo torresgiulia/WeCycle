@@ -9,12 +9,12 @@ import {
   TouchableOpacity,
   ScrollView,
   Image,
-  Linking
+  Linking,
 } from "react-native";
 // import Icon from 'react-native-vector-icons/Entypo' ;
 import Icon from "react-native-vector-icons/Ionicons";
-import LoginScreen from './LoginScreen';
-import axios from 'axios';
+import LoginScreen from "./LoginScreen";
+import axios from "axios";
 
 import { StyleSheet } from "react-native";
 
@@ -54,12 +54,11 @@ const HomeScreen = ({ route, navigation }) => {
     getAPI();
   }, []);
 
-
   //get API and load to the page
   const getAPI = async () => {
     try {
       const response = await axios.get(
-        "http://servicodados.ibge.gov.br/api/v3/noticias/?qtd=10"
+        "http://servicodados.ibge.gov.br/api/v3/noticias/?qtd=15"
       );
       const newsArticles = response.data;
       setNews(newsArticles);
@@ -68,15 +67,18 @@ const HomeScreen = ({ route, navigation }) => {
       const updatedNewsList = newsArticles.items.map((article, index) => {
         const images = JSON.parse(article.imagens);
         const imageUrl = `${baseUrl}/${images.image_intro}`;
-        // setLink(article.link);
         return (
-          <TouchableOpacity key={index} onPress={() => handleLink(article.link)}>
+          <TouchableOpacity
+            key={index}
+            onPress={() => handleLink(article.link)}
+            style={styles.newsWrapper}
+          >
             <View style={styles.imageContainer}>
-            <Text style={styles.text}>{article.titulo}</Text>
-              <Image
-                source={{ uri: imageUrl }}
-                style={styles.image}
-              />            
+              <Image source={{ uri: imageUrl }} style={styles.image} />
+              <View style={styles.textWrapper}>
+                <Text style={styles.text}>{article.titulo}</Text>
+                <Text style={styles.newsIntro}>{article.introducao}</Text>
+              </View>
             </View>
           </TouchableOpacity>
         );
@@ -86,41 +88,28 @@ const HomeScreen = ({ route, navigation }) => {
     } catch (error) {
       console.error("Error fetching news articles:", error);
     }
-  }
-  
+  };
+
   const handleLink = async (url) => {
     await Linking.openURL(url);
-  }
-
-
+  };
 
   return (
     <ScrollView style={styles.scroll}>
-      <View style={styles.container}>  
+      <View style={styles.container}>
         <View style={styles.wrapper}>
-          <Text
-            style={{
-              fontFamily: "Bold",
-              fontSize: 25,
-              color: "#FFF",
-              paddingVertical: 25,
-            }}
-          >
-            Notícias do momento...
-          </Text>
+          <Text style={styles.noticiaText}>Notícias do momento...</Text>
         </View>
-        {newsList.length > 0 ? newsList : null}     
+        {newsList.length > 0 ? newsList : null}
       </View>
     </ScrollView>
   );
 };
 
-
-
 export default HomeScreen;
 const styles = StyleSheet.create({
-  scroll:{
-    marginBottom: '26%',
+  scroll: {
+    marginBottom: "26%",
   },
   container: {
     height: "100%",
@@ -128,55 +117,53 @@ const styles = StyleSheet.create({
   },
   wrapper: {
     position: "relative",
-    height: 150,
-    width: "100%",
+    height: 100,
+    marginBottom: "4%",
     paddingHorizontal: 35,
     paddingTop: 40,
     borderBottomLeftRadius: 20,
     borderBottomRightRadius: 20,
     backgroundColor: "rgb(84, 156, 48)",
   },
-  post: {
-    paddingTop: "2%",
-    marginHorizontal: "5%",
-    borderBottomWidth: 2,
-    borderBottomColor: "rgb(198, 226, 182)",
-    flexDirection: "column",
-  },
-  likes: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "flex-end",
-  },
-  newPost: {
-    width: 50,
-    height: 50,
-    right: 30,
-    bottom: 140,
-    borderRadius: 30,
-    borderWidth: 1,
-    borderColor: "rgb(198, 226, 182)",
-    position: "absolute",
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "rgb(84, 156, 48)",
+  noticiaText: {
+    fontFamily: "Bold",
+    fontSize: 25,
+    color: "#FFF",
+    justifySelf: "center",
   },
   newFont: {
     fontSize: 28,
     color: "#fff",
     fontWeight: "bold",
   },
+  newsWrapper: {
+    marginHorizontal: "5%",
+    // height: "10%",
+  },
   image: {
-    height: 200, 
-    width: 350,
+    height: 150,
+    width: 130,
     borderRadius: 10,
   },
   imageContainer: {
     alignItems: "center",
     marginTop: 10,
-    paddingHorizontal: 30,
+    flexDirection: "row",
+    alignContent: "center",
   },
-  text:{
-    fontSize: 20
-  }
+  text: {
+    fontSize: 20,
+    fontWeight: "600",
+    paddingLeft: "5%",
+  },
+  textWrapper: {
+    flexDirection: "column",
+    flexShrink: 6,
+    alignSelf: "flex-start",
+  },
+  newsIntro: {
+    fontSize: 12,
+    paddingLeft: "7%",
+    paddingTop: "2%",
+  },
 });
