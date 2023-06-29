@@ -5,24 +5,14 @@ import {
   Text,
   View,
   TextInput,
-  SafeAreaView,
-  Button,
   KeyboardAvoidingView,
   TouchableOpacity,
 } from "react-native";
-import { NavigationContainer, TabActions } from "@react-navigation/native";
 //Firebase
 import { auth } from "../firebase";
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-import { FirebaseError } from "firebase/app";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import { db } from "../firebase";
-import {
-  collection,
-  getDocs,
-  addDoc,
-  doc,
-  updateDoc,
-} from "firebase/firestore";
+import { collection, addDoc } from "firebase/firestore";
 
 const SignupScreen = ({ navigation }) => {
   const [nome, setNome] = useState("");
@@ -31,8 +21,7 @@ const SignupScreen = ({ navigation }) => {
   const [pass, setPass] = useState("");
   const [vPass, setvPass] = useState("");
 
-  //Handle Register com:
-  //name, email, password
+  //Handle Register com: name, email, password
   function handleRegister() {
     //not null
     if (
@@ -60,7 +49,7 @@ const SignupScreen = ({ navigation }) => {
     }
   }
 
-  //Add post
+  //Add User
   const addUser = async () => {
     try {
       const usersRef = await addDoc(collection(db, "users"), {

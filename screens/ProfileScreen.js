@@ -4,13 +4,12 @@ import {
   View,
   StyleSheet,
   TouchableOpacity,
-  Image,
   TextInput,
-  Button,
   ImageBackground,
 } from "react-native";
 import { useEffect, useState } from "react";
 
+//Icon
 import Icon from "react-native-vector-icons/Ionicons";
 
 //FIREBASE
@@ -18,12 +17,10 @@ import { db, auth } from "../firebase";
 import {
   collection,
   getDocs,
-  addDoc,
   doc,
   updateDoc,
   deleteDoc,
 } from "firebase/firestore";
-
 import { updateEmail } from "firebase/auth";
 
 export default function ProfileScreen({ route, navigation }) {
@@ -35,15 +32,10 @@ export default function ProfileScreen({ route, navigation }) {
 
   const usersRef = collection(db, "users");
   const [users, setUser] = useState([]);
-  const [picRef, setPicRef] = useState([]);
 
   const [updatedUsername, setUpdatedUsername] = useState("");
   const [updatedNome, setUpdatedNome] = useState("");
   const [updatedEmail, setUpdatedEmail] = useState("");
-
-  const profilePicRef = collection(db, "profilePics");
-  const [pics, setPics] = useState([]);
-  const [src, setSrc] = useState([]);
 
   //Load user Info
   const getUser = async () => {
@@ -61,6 +53,8 @@ export default function ProfileScreen({ route, navigation }) {
   useEffect(() => {
     getUser();
   }, [email]);
+
+  //Add info to textInput
   useEffect(() => {
     setUpdatedUsername(username);
     setUpdatedNome(nome);

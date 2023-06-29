@@ -4,30 +4,20 @@ import {
   View,
   StyleSheet,
   TextInput,
-  Button,
   TouchableOpacity,
-  Image
+  Image,
 } from "react-native";
-import {
-  NavigationContainer,
-  TabActions,
-  useIsFocused,
-} from "@react-navigation/native";
 import { useEffect, useState } from "react";
-
-import Icon from "react-native-vector-icons/Ionicons";
-
 
 //FIREBASE
 import { db } from "../firebase";
 import { collection, getDocs } from "firebase/firestore";
 
-
 export default function SearchScreen({ navigation }) {
   const [items, setItems] = useState([]);
   const [products, setProducts] = useState([]);
 
-  useEffect(() => {       
+  useEffect(() => {
     getProducts();
   }, []);
 
@@ -55,18 +45,17 @@ export default function SearchScreen({ navigation }) {
               handleItems(text);
             }}
             placeholderTextColor="rgb(38, 38, 38)"
-          />          
+          />
         </View>
       </View>
       {items.map((item) => (
-        
         <View key={item.id} style={styles.productsContainer}>
           <TouchableOpacity
             style={styles.productBox}
             onPress={() => navigation.navigate("Product", { itemId: item.id })}
           >
-            <View style={styles.image} >
-              <Image source={{ uri: item.img }} style={styles.prodImage}/>            
+            <View style={styles.image}>
+              <Image source={{ uri: item.img }} style={styles.prodImage} />
             </View>
             <View style={styles.textBoxWrapper}>
               <Text>{item.nome}</Text>
@@ -77,8 +66,6 @@ export default function SearchScreen({ navigation }) {
     </View>
   );
 }
-
-
 
 const styles = StyleSheet.create({
   container: {
@@ -93,24 +80,24 @@ const styles = StyleSheet.create({
     marginTop: "10%",
     marginHorizontal: "10%",
   },
-  textBoxContainer:{
-    width: '80%',
-    height: '40%',
-    backgroundColor: 'rgb(230, 230, 230)',
+  textBoxContainer: {
+    width: "80%",
+    height: "40%",
+    backgroundColor: "rgb(230, 230, 230)",
     borderRadius: 15,
-    borderColor: 'rgb(84, 156, 48)',
+    borderColor: "rgb(84, 156, 48)",
     borderWidth: 0.5,
-    justifyContent: 'center', 
-    marginHorizontal: '10%',
-},
-searchBar:{
-    marginTop: '5%',
-    height: '20%',
+    justifyContent: "center",
+    marginHorizontal: "10%",
+  },
+  searchBar: {
+    marginTop: "5%",
+    height: "20%",
     borderBottomEndRadius: 10,
     borderBottomStartRadius: 10,
-    justifyContent: 'center',
-    alignContent: 'center',
-},
+    justifyContent: "center",
+    alignContent: "center",
+  },
   productsContainer: {
     alignItems: "center",
     marginTop: 10,
@@ -126,15 +113,15 @@ searchBar:{
     flexDirection: "row",
   },
   image: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: '20%',
-    height: '120%',
+    alignItems: "center",
+    justifyContent: "center",
+    width: "20%",
+    height: "120%",
     padding: 10,
-    backgroundColor: 'white',
+    backgroundColor: "white",
     borderRadius: 13,
   },
-  prodImage:{
+  prodImage: {
     width: 50,
     height: 50,
   },

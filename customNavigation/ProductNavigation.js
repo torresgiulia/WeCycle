@@ -5,10 +5,6 @@ import SearchScreen from "../screens/SearchScreen";
 
 const Stack = createNativeStackNavigator();
 
-//minuto: 19
-//Para passar informação de uma página para a outra: navigation.navigate("Página", {valor1 = xxx, valor2= xxx})
-//na Stack.Screen: options={({rota}) => { title: rota.params.valor1, title: rota.params.valor2}}
-//useRoute??
 function ProductNavigation() {
   return (
     <Stack.Navigator>

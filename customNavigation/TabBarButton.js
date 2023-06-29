@@ -1,6 +1,5 @@
 import React from "react";
 import { Text, View, TouchableOpacity, StyleSheet } from "react-native";
-import { NavigationContainer, TabActions } from "@react-navigation/native";
 import { Svg, Path } from "react-native-svg";
 
 const TabBarButton = (props) => {

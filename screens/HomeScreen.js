@@ -1,27 +1,21 @@
 //REACT
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Text,
   View,
-  SafeAreaView,
-  Button,
-  Touchable,
   TouchableOpacity,
   ScrollView,
   Image,
   Linking,
+  StyleSheet,
 } from "react-native";
-// import Icon from 'react-native-vector-icons/Entypo' ;
-import Icon from "react-native-vector-icons/Ionicons";
-import LoginScreen from "./LoginScreen";
-import axios from "axios";
 
-import { StyleSheet } from "react-native";
+//HTTP Request
+import axios from "axios";
 
 //FIREBASE
 import { db } from "../firebase";
 import { collection, getDocs } from "firebase/firestore";
-import { async } from "@firebase/util";
 
 const HomeScreen = ({ route, navigation }) => {
   const userRef = collection(db, "users");
