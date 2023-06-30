@@ -50,7 +50,7 @@ const HomeScreen = ({ route, navigation }) => {
   const getAPI = async () => {
     try {
       const response = await axios.get(
-        "http://servicodados.ibge.gov.br/api/v3/noticias/?qtd=15"
+        "http://servicodados.ibge.gov.br/api/v3/noticias/?qtd=20"
       );
       const newsArticles = response.data;
       setNews(newsArticles);

@@ -1,7 +1,3 @@
-//NAVIGATION
-import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-
 //REACT
 import {
   StyleSheet,
@@ -11,12 +7,11 @@ import {
   Image,
   Linking,
 } from "react-native";
-import { useEffect, useState, Component } from "react";
+import { useEffect, useState } from "react";
 
 //FIREBASE
 import { db } from "../firebase";
 import { collection, getDocs } from "firebase/firestore";
-import { async } from "@firebase/util";
 
 export default function ProductScreen({ route, navigation }) {
   //Id(barcode) do produto
