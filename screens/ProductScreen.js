@@ -50,13 +50,11 @@ export default function ProductScreen({ route, navigation }) {
 
   const getProduct = async () => {
     //product
-    console.log("products");
     const productData = await getDocs(productRef);
     setProducts(productData.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
   };
   const getComposition = async () => {
     //composition
-    console.log("products");
     const compositionData = await getDocs(compositionRef);
     setMaterialComposition(
       compositionData.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
@@ -64,7 +62,6 @@ export default function ProductScreen({ route, navigation }) {
   };
   const getContainer = async () => {
     //container
-    console.log("products");
     const containerData = await getDocs(containerRef);
     setMaterialContainer(
       containerData.docs.map((doc) => ({ ...doc.data(), id: doc.id }))

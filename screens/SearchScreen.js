@@ -22,7 +22,6 @@ export default function SearchScreen({ navigation }) {
   }, []);
 
   const getProducts = async () => {
-    console.log("search");
     const productRef = collection(db, "products");
     const productData = await getDocs(productRef);
     setProducts(productData.docs.map((doc) => ({ ...doc.data(), id: doc.id })));

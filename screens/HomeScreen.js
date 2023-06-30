@@ -26,7 +26,6 @@ const HomeScreen = ({ route, navigation }) => {
   const [newsList, setNewsList] = useState([]);
 
   const getUser = async () => {
-    console.log("home");
     const userContainer = await getDocs(userRef);
     setUser(userContainer.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
 
@@ -39,7 +38,6 @@ const HomeScreen = ({ route, navigation }) => {
   };
 
   useEffect(() => {
-    console.log(route.params.userEmail);
     setEmail(route.params.userEmail);
     getUser();
   }, []);
