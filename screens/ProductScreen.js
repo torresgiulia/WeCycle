@@ -23,6 +23,9 @@ export default function ProductScreen({ route, navigation }) {
   const [products, setProducts] = useState([]);
   const [productAttributes, setProductAttributes] = useState([]);
 
+  const uniqueMaterials = new Set();
+  const uniqueParts = new Set();
+
   //Composition
   const compositionRef = collection(db, "composition");
   const [materialComposition, setMaterialComposition] = useState([]);
@@ -65,23 +68,18 @@ export default function ProductScreen({ route, navigation }) {
 
   //Hook after object render and specify product
   useEffect(() => {
+    getProdInfo();
+  }, [products, materialComposition, materialContainer]);
+
+  const getProdInfo = () => {
     products.forEach((product) => {
-      //Código de barras = código lido
       if (product.id == prodId) {
         setProductAttributes(product);
         materialComposition.forEach((composition) => {
-          //encontrar composição do produto
           if (composition.codigo_barras == prodId) {
-            setProductMaterial((oldArray) => [
-              ...oldArray,
-              composition.material + ", ",
-            ]);
-            setProductPart((oldArray) => [
-              ...oldArray,
-              composition.parte + ", ",
-            ]);
+            uniqueMaterials.add(composition.material + ", ");
+            uniqueParts.add(composition.parte + ", ");
 
-            // //Dividir nos lixos
             if (product.separar == false) {
               materialContainer.forEach((container) => {
                 if (container.material == product.material_principal) {
@@ -104,7 +102,10 @@ export default function ProductScreen({ route, navigation }) {
         });
       }
     });
-  }, [products, materialComposition, materialContainer]);
+
+    setProductMaterial(Array.from(uniqueMaterials));
+    setProductPart(Array.from(uniqueParts));
+  };
 
   const handleLink = async (url) => {
     await Linking.openURL(url);
