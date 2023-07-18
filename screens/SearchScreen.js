@@ -48,7 +48,7 @@ export default function SearchScreen({ navigation }) {
           />
         </View>
       </View>
-      <ScrollView>
+      <ScrollView style={styles.scroll}>
         {items.map((item) => (
           <View key={item.id} style={styles.productsContainer}>
             <TouchableOpacity
@@ -131,5 +131,8 @@ const styles = StyleSheet.create({
   },
   textBoxWrapper: {
     padding: 10,
+  },
+  scroll: {
+    marginBottom: 110,
   },
 });
