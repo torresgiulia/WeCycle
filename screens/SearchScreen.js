@@ -6,6 +6,7 @@ import {
   TextInput,
   TouchableOpacity,
   Image,
+  ScrollView,
 } from "react-native";
 import { useEffect, useState } from "react";
 
@@ -47,21 +48,25 @@ export default function SearchScreen({ navigation }) {
           />
         </View>
       </View>
-      {items.map((item) => (
-        <View key={item.id} style={styles.productsContainer}>
-          <TouchableOpacity
-            style={styles.productBox}
-            onPress={() => navigation.navigate("Product", { itemId: item.id })}
-          >
-            <View style={styles.image}>
-              <Image source={{ uri: item.img }} style={styles.prodImage} />
-            </View>
-            <View style={styles.textBoxWrapper}>
-              <Text>{item.nome}</Text>
-            </View>
-          </TouchableOpacity>
-        </View>
-      ))}
+      <ScrollView>
+        {items.map((item) => (
+          <View key={item.id} style={styles.productsContainer}>
+            <TouchableOpacity
+              style={styles.productBox}
+              onPress={() =>
+                navigation.navigate("Product", { itemId: item.id })
+              }
+            >
+              <View style={styles.image}>
+                <Image source={{ uri: item.img }} style={styles.prodImage} />
+              </View>
+              <View style={styles.textBoxWrapper}>
+                <Text>{item.nome}</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+        ))}
+      </ScrollView>
     </View>
   );
 }
